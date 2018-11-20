@@ -19,6 +19,7 @@ Pacman agents (in searchAgents.py).
 
 import util
 
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -70,82 +71,88 @@ def tinyMazeSearch(problem):
     from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
+    return [s, s, w, s, w, w, s, w]
+
 
 def constructPath(road, start, end):
-    #construct path to goal
+    # construct path to goal
     path = []
-    piter = end #we find it backwards, so start at the end
-    while(piter != start): #as long as we havent found the start yet
-        prev = road[piter] #find the backtrack info in road
-        path.append(prev[1]) #append the direction we had to take to get to this node
-        piter = prev[0] #new target is the position we came from to get to this node
-    path.reverse() #reverse it
-    return path #done
+    piter = end  # we find it backwards, so start at the end
+    while (piter != start):  # as long as we havent found the start yet
+        prev = road[piter]  # find the backtrack info in road
+        path.append(prev[1])  # append the direction we had to take to get to this node
+        piter = prev[0]  # new target is the position we came from to get to this node
+    path.reverse()  # reverse it
+    return path  # done
+
 
 def recordEdge(road, node):
     road[node[0]] = (node[1], node[2])
 
+
 def depthFirstSearch(problem):
-    #print "Start:", problem.getStartState()
-    #print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-    #print "Start's successors:", problem.getSuccessors(problem.getStartState())
-    
+    # print "Start:", problem.getStartState()
+    # print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+    # print "Start's successors:", problem.getSuccessors(problem.getStartState())
+
     from game import Directions
-    from util import Stack 
+    from util import Stack
 
-    root = problem.getStartState() #starting node
-    visited = set() #positions already visited
-    road = {} #dictionary: pos -> (from pos, with dir)
-    end = root #here the found goal will be stored as pos
-    stack = Stack() #stack used to do DFS, (pos, from pos, with dir)
-    stack.push((root, root, Directions.STOP)) #push the root to start
+    root = problem.getStartState()  # starting node
+    visited = set()  # positions already visited
+    road = {}  # dictionary: pos -> (from pos, with dir)
+    end = root  # here the found goal will be stored as pos
+    stack = Stack()  # stack used to do DFS, (pos, from pos, with dir)
+    stack.push((root, root, Directions.STOP))  # push the root to start
 
-    while(not stack.isEmpty()):
-        node = stack.pop() #get a node
-        if(node[0] in visited): continue #if already seen, go to next node
-        visited.add(node[0]) #mark as seen
-        recordEdge(road, node) #record where we came from with which direction
-        if(problem.isGoalState(node[0])): #if this node is the goal
-            end = node[0] #save it
-            break #and stop the loop
-        succs = problem.getSuccessors(node[0]) #find all legal moves
-        for s in succs: #forall
-            stack.push((s[0], node[0], s[1])) 
-            #above: push it: (new node pos, node-we came form our current node, dir we took a step in)
+    while (not stack.isEmpty()):
+        node = stack.pop()  # get a node
+        if (node[0] in visited): continue  # if already seen, go to next node
+        visited.add(node[0])  # mark as seen
+        recordEdge(road, node)  # record where we came from with which direction
+        if (problem.isGoalState(node[0])):  # if this node is the goal
+            end = node[0]  # save it
+            break  # and stop the loop
+        succs = problem.getSuccessors(node[0])  # find all legal moves
+        for s in succs:  # forall
+            stack.push((s[0], node[0], s[1]))
+            # above: push it: (new node pos, node-we came form our current node, dir we took a step in)
     return constructPath(road, root, end)
-    #util.raiseNotDefined()
+    # util.raiseNotDefined()
+
 
 def breadthFirstSearch(problem):
     from game import Directions
     from util import Queue
 
-    root = problem.getStartState() #starting node
-    visited = set() #positions already visited
-    road = {} #dictionary: pos -> (from pos, with dir)
-    end = root #here the found goal will be stored as pos
+    root = problem.getStartState()  # starting node
+    visited = set()  # positions already visited
+    road = {}  # dictionary: pos -> (from pos, with dir)
+    end = root  # here the found goal will be stored as pos
     queue = Queue()
-    queue.push((root,root,Directions.STOP))
+    queue.push((root, root, Directions.STOP))
 
-    while(not queue.isEmpty()):
-        node = queue.pop() #get a node
-        if(node[0] in visited): continue #if already seen, go to next node
-        visited.add(node[0]) #mark as seen
-        recordEdge(road, node) #record where we came from with which direction
-        if(problem.isGoalState(node[0])): #if this node is the goal
-            end = node[0] #save it
-            break #and stop the loop
-        succs = problem.getSuccessors(node[0]) #find all legal moves
-        for s in succs: #forall
-            queue.push((s[0], node[0], s[1])) 
-            #above: push it: (new node pos, node-we came form our current node, dir we took a step in)
+    while (not queue.isEmpty()):
+        node = queue.pop()  # get a node
+        if (node[0] in visited): continue  # if already seen, go to next node
+        visited.add(node[0])  # mark as seen
+        recordEdge(road, node)  # record where we came from with which direction
+        if (problem.isGoalState(node[0])):  # if this node is the goal
+            end = node[0]  # save it
+            break  # and stop the loop
+        succs = problem.getSuccessors(node[0])  # find all legal moves
+        for s in succs:  # forall
+            queue.push((s[0], node[0], s[1]))
+            # above: push it: (new node pos, node-we came form our current node, dir we took a step in)
     return constructPath(road, root, end)
-    #util.raiseNotDefined()
+    # util.raiseNotDefined()
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -154,10 +161,47 @@ def nullHeuristic(state, problem=None):
     """
     return 0
 
+
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from util import PriorityQueue
+    from game import Directions
+
+    class ANode:
+        def __init__(self, state, previous_state, direction, depth=0, h=0):
+            self.state = state
+            self.previous_state = previous_state
+            self.direction = direction
+            self.depth = depth
+            self.h = h
+            self.g = 0
+
+    start_state = problem.getStartState()
+    open = PriorityQueue()
+    closed = set()
+    road = {}
+
+    open.push(ANode(start_state, start_state, Directions.STOP), 0)
+    while not open.isEmpty():
+        current = open.pop()
+
+        # Check whether current node is already closed
+        if current.state in closed: continue
+        closed.add(current.state)
+        recordEdge(road, (current.state, current.previous_state, current.direction))
+
+        # Check whether we are at the goal
+        if problem.isGoalState(current.state): return constructPath(road, start_state, current.state)
+
+        # Calculate the hauristic + g score for each neighbour node
+        for neighbor_state in problem.getSuccessors(current.state):
+            neighbor = ANode(neighbor_state[0], current.state, neighbor_state[1], current.depth + 1)
+            neighbor.g = 1 + current.g  # This should use heuristic instead
+            neighbor.f = neighbor.g + heuristic(neighbor.state, problem)
+
+            open.push(neighbor, neighbor.f)
+
+    return []
 
 
 # Abbreviations
