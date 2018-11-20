@@ -196,7 +196,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         # Calculate the hauristic + g score for each neighbour node
         for successor in problem.getSuccessors(current.state):
             neighbor = ANode(successor[0], current.state, successor[1], current.depth + 1)
-            neighbor.g = current.g + successor[2]  # This should use heuristic instead
+            neighbor.g = current.g + successor[2]
             neighbor.f = neighbor.g + heuristic(neighbor.state, problem) + problem.getCostOfActions([neighbor.direction])
 
             open.push(neighbor, neighbor.f)
