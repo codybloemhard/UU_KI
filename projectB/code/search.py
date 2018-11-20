@@ -194,10 +194,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         if problem.isGoalState(current.state): return constructPath(road, start_state, current.state)
 
         # Calculate the hauristic + g score for each neighbour node
-        for neighbor_state in problem.getSuccessors(current.state):
-            neighbor = ANode(neighbor_state[0], current.state, neighbor_state[1], current.depth + 1)
-            neighbor.g = 1 + current.g  # This should use heuristic instead
-            neighbor.f = neighbor.g + heuristic(neighbor.state, problem)
+        for successor in problem.getSuccessors(current.state):
+            neighbor = ANode(successor[0], current.state, successor[1], current.depth + 1)
+            neighbor.g = current.g + successor[2]  # This should use heuristic instead
+            neighbor.f = neighbor.g + heuristic(neighbor.state, problem) + problem.getCostOfActions([neighbor.direction])
 
             open.push(neighbor, neighbor.f)
 
