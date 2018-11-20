@@ -72,6 +72,20 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+def constructPath(road, start, end):
+    #construct path to goal
+    path = []
+    piter = end #we find it backwards, so start at the end
+    while(piter != start): #as long as we havent found the start yet
+        prev = road[piter] #find the backtrack info in road
+        path.append(prev[1]) #append the direction we had to take to get to this node
+        piter = prev[0] #new target is the position we came from to get to this node
+    path.reverse() #reverse it
+    return path #done
+
+def recordEdge(road, node):
+    road[node[0]] = (node[1], node[2])
+
 def depthFirstSearch(problem):
     #print "Start:", problem.getStartState()
     #print "Is the start a goal?", problem.isGoalState(problem.getStartState())
@@ -91,7 +105,7 @@ def depthFirstSearch(problem):
         node = stack.pop() #get a node
         if(node[0] in visited): continue #if already seen, go to next node
         visited.add(node[0]) #mark as seen
-        road[node[0]] = (node[1], node[2]) #record where we came from with which direction
+        recordEdge(road, node) #record where we came from with which direction
         if(problem.isGoalState(node[0])): #if this node is the goal
             end = node[0] #save it
             break #and stop the loop
@@ -99,15 +113,7 @@ def depthFirstSearch(problem):
         for s in succs: #forall
             stack.push((s[0], node[0], s[1])) 
             #above: push it: (new node pos, node-we came form our current node, dir we took a step in)
-    #construct path to goal
-    path = []
-    piter = end #we find it backwards, so start at the end
-    while(piter != root): #as long as we havent found the start yet
-        prev = road[piter] #find the backtrack info in road
-        path.append(prev[1]) #append the direction we had to take to get to this node
-        piter = prev[0] #new target is the position we came from to get to this node
-    path.reverse() #reverse it
-    return path #done
+    return constructPath(road, root, end)
     #util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
@@ -125,7 +131,7 @@ def breadthFirstSearch(problem):
         node = queue.pop() #get a node
         if(node[0] in visited): continue #if already seen, go to next node
         visited.add(node[0]) #mark as seen
-        road[node[0]] = (node[1], node[2]) #record where we came from with which direction
+        recordEdge(road, node) #record where we came from with which direction
         if(problem.isGoalState(node[0])): #if this node is the goal
             end = node[0] #save it
             break #and stop the loop
@@ -133,15 +139,7 @@ def breadthFirstSearch(problem):
         for s in succs: #forall
             queue.push((s[0], node[0], s[1])) 
             #above: push it: (new node pos, node-we came form our current node, dir we took a step in)
-    #construct path to goal
-    path = []
-    piter = end #we find it backwards, so start at the end
-    while(piter != root): #as long as we havent found the start yet
-        prev = road[piter] #find the backtrack info in road
-        path.append(prev[1]) #append the direction we had to take to get to this node
-        piter = prev[0] #new target is the position we came from to get to this node
-    path.reverse() #reverse it
-    return path #done
+    return constructPath(road, root, end)
     #util.raiseNotDefined()
 
 def uniformCostSearch(problem):
