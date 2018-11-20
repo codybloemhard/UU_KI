@@ -91,7 +91,7 @@ def depthFirstSearch(problem):
     end = root #here the found goal will be stored as pos
     stack = Stack() #stack used to do DFS, (pos, from pos, with dir)
     stack.push((root, root, Directions.STOP)) #push the root to start
-
+    
     while(not stack.isEmpty()):
         node = stack.pop() #get a node
         if(node[0] in visited): continue #if already seen, go to next node
