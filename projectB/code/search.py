@@ -73,21 +73,47 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 def depthFirstSearch(problem):
-    """
+    '''
     Search the deepest nodes in the search tree first.
-
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
-
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
-
+    --search deepest nodes
+    --return list of actions
+    '''
     print "Start:", problem.getStartState()
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    from game import Directions
+    from util import Stack 
+
+    root = problem.getStartState() #starting node
+    visited = set() #positions already visited
+    road = {} #dictionary: pos -> (from pos, with dir)
+    end = root #here the found goal will be stored as pos
+    stack = Stack() #stack used to do DFS, (pos, from pos, with dir)
+    stack.push((root, root, Directions.STOP)) #push the root to start
+
+    while(not stack.isEmpty()):
+        node = stack.pop() #get a node
+        if(node[0] in visited): continue #if already seen, go to next node
+        visited.add(node[0]) #mark as seen
+        road[node[0]] = (node[1], node[2]) #record where we came from with which direction
+        if(problem.isGoalState(node[0])): #if this node is the goal
+            end = node[0] #save it
+            break #and stop the loop
+        succs = problem.getSuccessors(node[0]) #find all legal moves
+        for s in succs: #forall
+            stack.push((s[0], node[0], s[1])) 
+            #above: push it: (new node pos, node-we came form our current node, dir we took a step in)
+    #construct path to goal
+    path = []
+    piter = end #we find it backwards, so start at the end
+    while(piter != root): #as long as we havent found the start yet
+        prev = road[piter] #find the backtrack info in road
+        path.append(prev[1]) #append the direction we had to take to get to this node
+        piter = prev[0] #new target is the position we came from to get to this node
+    path.reverse() #reverse it
+    return path #done
+    #util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
