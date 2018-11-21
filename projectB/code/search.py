@@ -150,8 +150,41 @@ def breadthFirstSearch(problem):
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from util import PriorityQueue
+    from game import Directions
+
+    class ANode:
+        def __init__(self, state, previous_state, direction):
+            self.state = state
+            self.previous_state = previous_state
+            self.direction = direction
+
+    open = PriorityQueue()
+    closed = set()
+    road = {}
+
+    start_state = problem.getStartState()
+
+    open.push(ANode(start_state, start_state, Directions.STOP), 0)
+    while not open.isEmpty():
+        current = open.pop()
+
+        # Check whether current node is already closed
+        if current.state in closed: continue
+        closed.add(current.state)
+        recordEdge(road, (current.state, current.previous_state, current.direction))
+
+        # Check whether we are at the goal
+        if problem.isGoalState(current.state): return constructPath(road, start_state, current.state)
+
+        # Calculate the cost and add to queue
+        for successor in problem.getSuccessors(current.state):
+            neighbor = ANode(successor[0], current.state, successor[1])
+            cost = problem.getCostOfActions([neighbor.direction])
+
+            open.push(neighbor, cost)
+
+    return []
 
 
 def nullHeuristic(state, problem=None):
