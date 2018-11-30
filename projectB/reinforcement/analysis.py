@@ -20,8 +20,15 @@
 # value iteration.
 
 def question2():
-    answerDiscount = 0.9
-    answerNoise = 0.2
+    # Agent seems to not be able to cross bridge if discount is changed
+    # Agent seems to be able to go always east if noise is below 0.01695
+    # Agent cant cross with only discount change because the reward becomes exponentially less significant where
+    # The punishment grows harder than the reward
+    # See this graph that illustrates the discount against the q value given a distance and noise
+    # and given there are no other rewards. As you can see after around 0.1 there is no solution possible
+    # https://www.geogebra.org/geometry/qsqxryjz
+    answerDiscount = 0.90
+    answerNoise = 0.01695
     return answerDiscount, answerNoise
 
 def question3a():
