@@ -24,11 +24,10 @@ import grading
 import projectParams
 
 random.seed(0)
-try:
+try: 
     from pacman import GameState
 except:
     pass
-
 
 # register arguments and set default values
 def readCommand(argv):
@@ -85,10 +84,8 @@ def readCommand(argv):
 
 # confirm we should author solution files
 def confirmGenerate():
-    print
-    'WARNING: this action will overwrite any solution files.'
-    print
-    'Are you sure you want to proceed? (yes/no)'
+    print 'WARNING: this action will overwrite any solution files.'
+    print 'Are you sure you want to proceed? (yes/no)'
     while True:
         ans = sys.stdin.readline().strip()
         if ans == 'yes':
@@ -96,8 +93,7 @@ def confirmGenerate():
         elif ans == 'no':
             sys.exit(0)
         else:
-            print
-            'please answer either "yes" or "no"'
+            print 'please answer either "yes" or "no"'
 
 
 # TODO: Fix this so that it tracebacks work correctly
@@ -127,10 +123,9 @@ def loadModuleString(moduleSource):
     #    ValueError: load_module arg#2 should be a file or None
     #
     # f = StringIO(moduleCodeDict[k])
-    # tmp = imp.load_module(k, f, k, (".py", "r", imp.PY_SOURCE))
+    #tmp = imp.load_module(k, f, k, (".py", "r", imp.PY_SOURCE))
     tmp = imp.new_module(k)
-    exec
-    moduleCodeDict[k] in tmp.__dict__
+    exec moduleCodeDict[k] in tmp.__dict__
     setModuleName(tmp, k)
     return tmp
 
@@ -177,7 +172,6 @@ ERROR_HINT_MAP = {
 
 import pprint
 
-
 def splitStrings(d):
     d2 = dict(d)
     for k in d:
@@ -191,16 +185,12 @@ def splitStrings(d):
 
 def printTest(testDict, solutionDict):
     pp = pprint.PrettyPrinter(indent=4)
-    print
-    "Test case:"
+    print "Test case:"
     for line in testDict["__raw_lines__"]:
-        print
-        "   |", line
-    print
-    "Solution:"
+        print "   |", line
+    print "Solution:"
     for line in solutionDict["__raw_lines__"]:
-        print
-        "   |", line
+        print "   |", line
 
 
 def runTest(testName, moduleDict, printTestCase=False, display=None):
@@ -238,15 +228,13 @@ def getDepends(testParser, testRoot, question):
             allDeps = getDepends(testParser, testRoot, d) + allDeps
     return allDeps
 
-
 # get list of questions to grade
 def getTestSubdirs(testParser, testRoot, questionToGrade):
     problemDict = testParser.TestParser(os.path.join(testRoot, 'CONFIG')).parse()
     if questionToGrade != None:
         questions = getDepends(testParser, testRoot, questionToGrade)
         if len(questions) > 1:
-            print
-            'Note: due to dependencies, the following tests will be run: %s' % ' '.join(questions)
+            print 'Note: due to dependencies, the following tests will be run: %s' % ' '.join(questions)
         return questions
     if 'order' in problemDict:
         return problemDict['order'].split()
@@ -290,7 +278,6 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
             testDict['test_out_file'] = test_out_file
             testClass = getattr(projectTestClasses, testDict['class'])
             testCase = testClass(question, testDict)
-
             def makefun(testCase, solution_file):
                 if generateSolutions:
                     # write solution file to disk
@@ -304,13 +291,11 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
                                                                                                     solutionDict)
                     else:
                         return lambda grades: testCase.execute(grades, moduleDict, solutionDict)
-
             question.addTestCase(testCase, makefun(testCase, solution_file))
 
         # Note extra function is necessary for scoping reasons
         def makefun(question):
             return lambda grades: question.execute(grades)
-
         setattr(sys.modules[__name__], q, makefun(question))
         questions.append((q, question.getMaxPoints()))
 
@@ -322,6 +307,7 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
 
     grades.grade(sys.modules[__name__], bonusPic=projectParams.BONUS_PIC)
     return grades.points
+
 
 
 def getDisplay(graphicsByDefault, options=None):
@@ -356,6 +342,7 @@ if __name__ == '__main__':
         moduleDict[moduleName] = loadModuleFile(moduleName, os.path.join(options.codeRoot, cp))
     moduleName = re.match('.*?([^/]*)\.py', options.testCaseCode).group(1)
     moduleDict['projectTestClasses'] = loadModuleFile(moduleName, os.path.join(options.codeRoot, options.testCaseCode))
+
 
     if options.runTest != None:
         runTest(options.runTest, moduleDict, printTestCase=options.printTestCase, display=getDisplay(True, options))

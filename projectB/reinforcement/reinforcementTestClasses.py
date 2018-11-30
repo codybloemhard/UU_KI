@@ -29,7 +29,6 @@ import gridworld
 LIVINGREWARD = -0.1
 NOISE = 0.2
 
-
 class ValueIterationTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -674,6 +673,7 @@ class EvalAgentTest(testClasses.TestCase):
 
         self.maxPoints = sum([len(t) for t in [self.scoreThresholds, self.nonTimeoutThresholds, self.winsThresholds]])
 
+
     def execute(self, grades, moduleDict, solutionDict):
         self.addMessage('Grading agent using command:  python pacman.py %s' % (self.pacmanParams,))
 
@@ -766,7 +766,6 @@ def followPath(policy, start, numSteps=100):
 
     return path
 
-
 def parseGrid(string):
     grid = [[entry.strip() for entry in line.split()] for line in string.split('\n')]
     for row in grid:
@@ -787,6 +786,7 @@ def computePolicy(moduleDict, grid, discount):
     for state in grid.getStates():
         policy[state] = valueIterator.computeActionFromValues(state)
     return policy
+
 
 
 class GridPolicyTest(testClasses.TestCase):
@@ -823,6 +823,7 @@ class GridPolicyTest(testClasses.TestCase):
         #    (x,y) for a particular location; (0,0) is bottom left
         #    terminal for the terminal state
         self.pathNotVisits = testDict.get('pathNotVisits', None)
+
 
     def execute(self, grades, moduleDict, solutionDict):
         if not hasattr(moduleDict['analysis'], self.parameterFn):
@@ -949,3 +950,4 @@ class GridPolicyTest(testClasses.TestCase):
             handle.write('# This is the solution file for %s.\n' % self.path)
             handle.write('# File intentionally blank.\n')
         return True
+

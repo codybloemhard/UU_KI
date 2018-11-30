@@ -25,7 +25,6 @@ class Gridworld(mdp.MarkovDecisionProcess):
     """
       Gridworld
     """
-
     def __init__(self, grid):
         # layout
         if type(grid) == type([]): grid = makeGrid(grid)
@@ -50,6 +49,7 @@ class Gridworld(mdp.MarkovDecisionProcess):
         The probability of moving in an unintended direction.
         """
         self.noise = noise
+
 
     def getPossibleActions(self, state):
         """
@@ -111,6 +111,7 @@ class Gridworld(mdp.MarkovDecisionProcess):
         in the R+N textbook.
         """
         return state == self.grid.terminalState
+
 
     def getTransitionStatesAndProbs(self, state, action):
         """
@@ -177,7 +178,6 @@ class Gridworld(mdp.MarkovDecisionProcess):
         if x < 0 or x >= self.grid.width: return False
         return self.grid[x][y] != '#'
 
-
 class GridworldEnvironment(environment.Environment):
 
     def __init__(self, gridWorld):
@@ -216,7 +216,6 @@ class GridworldEnvironment(environment.Environment):
     def reset(self):
         self.state = self.gridWorld.getStartState()
 
-
 class Grid:
     """
     A 2-dimensional array of immutables backed by a list of lists.  Data is accessed
@@ -225,7 +224,6 @@ class Grid:
 
     The __str__ method constructs an output that is oriented appropriately.
     """
-
     def __init__(self, width, height, initialValue=' '):
         self.width = width
         self.height = height
@@ -266,7 +264,6 @@ class Grid:
     def __str__(self):
         return str(self._getLegacyText())
 
-
 def makeGrid(gridString):
     width, height = len(gridString[0]), len(gridString)
     grid = Grid(width, height)
@@ -276,20 +273,17 @@ def makeGrid(gridString):
             grid[x][y] = el
     return grid
 
-
 def getCliffGrid():
     grid = [[' ', ' ', ' ', ' ', ' '],
             ['S', ' ', ' ', ' ', 10],
             [-100, -100, -100, -100, -100]]
     return Gridworld(makeGrid(grid))
 
-
 def getCliffGrid2():
     grid = [[' ', ' ', ' ', ' ', ' '],
             [8, 'S', ' ', ' ', 10],
             [-100, -100, -100, -100, -100]]
     return Gridworld(grid)
-
 
 def getDiscountGrid():
     grid = [[' ', ' ', ' ', ' ', ' '],
@@ -299,20 +293,17 @@ def getDiscountGrid():
             [-10, -10, -10, -10, -10]]
     return Gridworld(grid)
 
-
 def getBridgeGrid():
     grid = [['#', -100, -100, -100, -100, -100, '#'],
             [1, 'S', ' ', ' ', ' ', ' ', 10],
             ['#', -100, -100, -100, -100, -100, '#']]
     return Gridworld(grid)
 
-
 def getBookGrid():
     grid = [[' ', ' ', ' ', +1],
             [' ', '#', ' ', -1],
             ['S', ' ', ' ', ' ']]
     return Gridworld(grid)
-
 
 def getMazeGrid():
     grid = [[' ', ' ', ' ', +1],
@@ -321,6 +312,7 @@ def getMazeGrid():
             [' ', '#', '#', ' '],
             ['S', ' ', ' ', ' ']]
     return Gridworld(grid)
+
 
 
 def getUserAction(state, actionFunction):
@@ -346,11 +338,7 @@ def getUserAction(state, actionFunction):
     return action
 
 
-def printString(x): print
-
-
-x
-
+def printString(x): print x
 
 def runEpisode(agent, environment, discount, decision, display, message, pause, episode):
     returns = 0
@@ -391,7 +379,6 @@ def runEpisode(agent, environment, discount, decision, display, message, pause, 
 
     if 'stopEpisode' in dir(agent):
         agent.stopEpisode()
-
 
 def parseOptions():
     optParser = optparse.OptionParser()
@@ -446,8 +433,7 @@ def parseOptions():
     opts, args = optParser.parse_args()
 
     if opts.manual and opts.agent != 'q':
-        print
-        '## Disabling Agents in Manual Mode (-m) ##'
+        print '## Disabling Agents in Manual Mode (-m) ##'
         opts.agent = None
 
     # MANAGE CONFLICTS
@@ -478,16 +464,15 @@ if __name__ == '__main__':
     mdp.setNoise(opts.noise)
     env = gridworld.GridworldEnvironment(mdp)
 
+
     ###########################
     # GET THE DISPLAY ADAPTER
     ###########################
 
     import textGridworldDisplay
-
     display = textGridworldDisplay.TextGridworldDisplay(mdp)
     if not opts.textDisplay:
         import graphicsGridworldDisplay
-
         display = graphicsGridworldDisplay.GraphicsGridworldDisplay(mdp, opts.gridSize, opts.speed)
     try:
         display.start()
@@ -499,7 +484,6 @@ if __name__ == '__main__':
     ###########################
 
     import valueIterationAgents, qlearningAgents
-
     a = None
     if opts.agent == 'value':
         a = valueIterationAgents.ValueIterationAgent(mdp, opts.discount, opts.iters)
@@ -517,29 +501,22 @@ if __name__ == '__main__':
         # # No reason to use the random agent without episodes
         if opts.episodes == 0:
             opts.episodes = 10
-
-
         class RandomAgent:
             def getAction(self, state):
                 return random.choice(mdp.getPossibleActions(state))
-
             def getValue(self, state):
                 return 0.0
-
             def getQValue(self, state, action):
                 return 0.0
-
             def getPolicy(self, state):
                 "NOTE: 'random' is a special policy value; don't use it in your code."
                 return 'random'
-
             def update(self, state, action, nextState, reward):
                 pass
-
-
         a = RandomAgent()
     else:
         if not opts.manual: raise 'Unknown agent type: ' + opts.agent
+
 
     ###########################
     # RUN EPISODES
@@ -588,8 +565,7 @@ if __name__ == '__main__':
     # RUN EPISODES
     if opts.episodes > 0:
         print
-        print
-        "RUNNING", opts.episodes, "EPISODES"
+        print "RUNNING", opts.episodes, "EPISODES"
         print
     returns = 0
     for episode in range(1, opts.episodes + 1):
@@ -597,8 +573,7 @@ if __name__ == '__main__':
                               episode)
     if opts.episodes > 0:
         print
-        print
-        "AVERAGE RETURNS FROM START STATE: " + str((returns + 0.0) / opts.episodes)
+        print "AVERAGE RETURNS FROM START STATE: " + str((returns + 0.0) / opts.episodes)
         print
         print
 

@@ -13,16 +13,6 @@
 
 
 # !/usr/bin/python
-# !/usr/bin/python
-import math
-from math import pi as PI
-
-import environment
-# !/usr/bin/python
-# !/usr/bin/python
-import math
-from math import pi as PI
-
 import environment
 
 
@@ -119,6 +109,7 @@ class CrawlingRobotEnvironment(environment.Environment):
 
         self.state = nextState
         return nextState, reward
+
 
     def reset(self):
         """
@@ -236,7 +227,9 @@ class CrawlingRobot:
             return math.atan(-y / x)
         return 0.0
 
+
     ## You shouldn't need methods below here
+
 
     def __getCosAndSin(self, angle):
         return math.cos(angle), math.sin(angle)
@@ -299,6 +292,7 @@ class CrawlingRobot:
 
         self.canvas.coords(self.robotHand, xArm, yArm, xHand, yHand)
 
+
         # Position and Velocity Sign Post
         #        time = len(self.positions) + 0.5 * sum(self.angleSums)
         #        velocity = (self.positions[-1]-self.positions[0]) / time
@@ -352,7 +346,7 @@ class CrawlingRobot:
         self.handAngle = self.oldHandDegree = -PI / 6
 
         self.maxArmAngle = PI / 6
-        self.minArmAngle = -PI / 6
+        self.minArmAngle = -PI /6
 
         self.maxHandAngle = 0
         self.minHandAngle = -(5.0 / 6.0) * PI
@@ -386,7 +380,7 @@ class CrawlingRobot:
 #      self.angleSums = [0,0]
 
 
+
 if __name__ == '__main__':
     from graphicsCrawlerDisplay import *
-
     run()

@@ -113,15 +113,12 @@ class FixedRandom:
         self.random = random.Random()
         self.random.setstate(fixedState)
 
-
 """
  Data structures useful for implementing SearchAgents
 """
 
-
 class Stack:
     "A container with a last-in-first-out (LIFO) queuing policy."
-
     def __init__(self):
         self.list = []
 
@@ -137,10 +134,8 @@ class Stack:
         "Returns true if the stack is empty"
         return len(self.list) == 0
 
-
 class Queue:
     "A container with a first-in-first-out (FIFO) queuing policy."
-
     def __init__(self):
         self.list = []
 
@@ -158,7 +153,6 @@ class Queue:
     def isEmpty(self):
         "Returns true if the queue is empty"
         return len(self.list) == 0
-
 
 class PriorityQueue:
     """
@@ -192,7 +186,6 @@ class PriorityQueue:
     def isEmpty(self):
         return len(self.heap) == 0
 
-
 class PriorityQueueWithFunction(PriorityQueue):
     """
     Implements a priority queue with the same push/pop signature of the
@@ -215,13 +208,11 @@ def manhattanDistance(xy1, xy2):
     "Returns the Manhattan distance between points xy1 and xy2"
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
-
 """
   Data structures and functions useful for various course projects
 
   The search project should not need anything below this line.
 """
-
 
 class Counter(dict):
     """
@@ -263,7 +254,6 @@ class Counter(dict):
     subtracted or multiplied together.  See below for details.  They can
     also be normalized and their total count and arg max can be extracted.
     """
-
     def __getitem__(self, idx):
         self.setdefault(idx, 0)
         return dict.__getitem__(self, idx)
@@ -437,16 +427,13 @@ class Counter(dict):
             addend[key] = -1 * y[key]
         return addend
 
-
 def raiseNotDefined():
     fileName = inspect.stack()[1][1]
     line = inspect.stack()[1][2]
     method = inspect.stack()[1][3]
 
-    print
-    "*** Method not implemented: %s at line %s of %s" % (method, line, fileName)
+    print "*** Method not implemented: %s at line %s of %s" % (method, line, fileName)
     sys.exit(1)
-
 
 def normalize(vectorOrCounter):
     """
@@ -466,7 +453,6 @@ def normalize(vectorOrCounter):
         s = float(sum(vector))
         if s == 0: return vector
         return [el / s for el in vector]
-
 
 def nSample(distribution, values, n):
     if sum(distribution) != 1:
@@ -499,11 +485,9 @@ def sample(distribution, values=None):
         total += distribution[i]
     return values[i]
 
-
 def sampleFromCounter(ctr):
     items = sorted(ctr.items())
     return sample([v for k, v in items], [k for k, v in items])
-
 
 def getProbability(value, distribution, values):
     """
@@ -553,7 +537,6 @@ def sign(x):
     else:
         return -1
 
-
 def arrayInvert(array):
     """
     Inverts a matrix stored as a list of lists.
@@ -577,7 +560,6 @@ def matrixAsList(matrix, value=True):
                 cells.append((row, col))
     return cells
 
-
 def lookup(name, namespace):
     """
     Get a method or class from any imported module from its name.
@@ -596,13 +578,11 @@ def lookup(name, namespace):
         if len(options) > 1: raise Exception, 'Name conflict for %s'
         raise Exception, '%s not found as a method or class' % name
 
-
 def pause():
     """
     Pauses the output stream awaiting user feedback.
     """
-    print
-    "<Press enter/return to continue>"
+    print "<Press enter/return to continue>"
     raw_input()
 
 
@@ -616,8 +596,6 @@ def pause():
 #
 import signal
 import time
-
-
 class TimeoutFunctionException(Exception):
     """Exception to raise on a timeout"""
     pass
@@ -652,15 +630,14 @@ class TimeoutFunction:
         return result
 
 
+
 _ORIGINAL_STDOUT = None
 _ORIGINAL_STDERR = None
 _MUTED = False
 
-
 class WritableNull:
     def write(self, string):
         pass
-
 
 def mutePrint():
     global _ORIGINAL_STDOUT, _ORIGINAL_STDERR, _MUTED
@@ -671,8 +648,7 @@ def mutePrint():
     _ORIGINAL_STDOUT = sys.stdout
     # _ORIGINAL_STDERR = sys.stderr
     sys.stdout = WritableNull()
-    # sys.stderr = WritableNull()
-
+    #sys.stderr = WritableNull()
 
 def unmutePrint():
     global _ORIGINAL_STDOUT, _ORIGINAL_STDERR, _MUTED
