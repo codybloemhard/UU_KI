@@ -23,7 +23,7 @@ class ValueIterationAgent(ValueEstimationAgent):
     mdp = None  # type: mdp.MarkovDecisionProcess
 
     """
-        * Please read learningAgents.py before reading this.*
+        * Please read learningAgents.py before reading this.*`
 
         A ValueIterationAgent takes a Markov decision process
         (see mdp.py) on initialization and runs value iteration
