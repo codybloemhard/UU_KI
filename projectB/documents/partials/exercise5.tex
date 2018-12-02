@@ -1,1 +1,21 @@
 \section{Exercise 5}
+\subsection{ex5-a}
+For the first agent: it's intended behaviour is to find the shortest path to the goal, because there is no
+reason not to cause there are no obstacles, therefore every path costs the same. 
+It is achieved by sorting the currently visible paths based on their cost so far, with the cheapest sorted 
+at the front. That way the algoritm will constantly pick the cheapest path to further explore. 
+And because every path costs the same it basically works like breadth first search.
+For the second agent: it's intended behaviour is to take the east route because that path has some food on it.
+The food makes for a cheaper path than a normal path. It is achieved almost the same way as the first agent, 
+only now not every path costs the same. The path with the food costs less, so that path will be explored 
+first instead of the other paths.
+For the third agent: it's intended behaviour is to take the most west path, because the other paths contain 
+ghosts which drive up the cost of a path. This is because the paths with the ghosts have a high chance of death.
+It is achieved the same way as with the other agents, only now the paths with the ghosts have a high cost and 
+thus they will be sorted at the end. This way the algorithm explores the path without ghosts first.
+
+When the algorithm finds a path to the goal it stops looking because it chose the cheapest path at all time,
+therefore the first path must be the cheapest.
+
+
+\subsection{ex5-b}
