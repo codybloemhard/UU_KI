@@ -13,3 +13,6 @@ lead to the goal location. This first path it finds does not have to be the path
 And because it stops after finding a path it doesn't always find the least cost solution.
 
 \subsection{ex3-d}
+Yes, the order is as we expected. Pacman does not visit all the explored squares on his way to the goal. This is because 
+the first path he explores may or may not be a dead end. If this is the case then he will not go there, because his objective 
+is to reach the goal.
