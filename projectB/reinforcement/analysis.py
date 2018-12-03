@@ -32,6 +32,7 @@ def question2():
     return answerDiscount, answerNoise
 
 
+# https://www.desmos.com/calculator/2tiqecnqga graph
 def question3a():
     # https://i.imgur.com/ClInQci.png
     # Red line is the short risky route (this one interests us)
