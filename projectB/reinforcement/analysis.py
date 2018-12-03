@@ -31,40 +31,66 @@ def question2():
     answerNoise = 0.01695
     return answerDiscount, answerNoise
 
+
 def question3a():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # https://i.imgur.com/ClInQci.png
+    # Red line is the short risky route (this one interests us)
+    # Blue line is long risky route
+    # Green line is safe long route
+    answerDiscount = 0.2
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
+
 
 def question3b():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Very simple. Make living reward huge negative to discover long routes
+    # Make noise even bigger to discourage risk.
+    answerDiscount = 0.5
+    answerNoise = 0.1
+    answerLivingReward = -1
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
+
 
 def question3c():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Also quite simple. If there is no risk and the long term reward is tempting enough
+    # it will pick the shortest path along the bridge
+    # https://i.imgur.com/Wfsl1qt.png
+    # Red line is the short risky route
+    # Blue line is long risky route (this one interests us)
+    # Green line is safe long route
+    # Purple line is safe short route
+    answerDiscount = 0.5
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
+
 
 def question3d():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Simple. Make noise high to discourage risk. Pick right gamma to encourage long term reward
+    # https://i.imgur.com/a4r73fT.png
+    # Red line is the short risky route
+    # Blue line is long risky route
+    # Green line is safe long route (this one interests us)
+    # Purple line is safe short route
+    answerDiscount = 0.5
+    answerNoise = 0.25
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
+
 def question3e():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Put everything to 0 so all values are set to zero because reward is multiplied by gamma which is always zero
+    answerDiscount = 0
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
+
 
 def question6():
     answerEpsilon = None
@@ -72,9 +98,11 @@ def question6():
     return answerEpsilon, answerLearningRate
     # If not possible, return 'NOT POSSIBLE'
 
+
 if __name__ == '__main__':
     print 'Answers to analysis questions:'
     import analysis
+
     for q in [q for q in dir(analysis) if q.startswith('question')]:
         response = getattr(analysis, q)()
         print '  Question %s:\t%s' % (q, str(response))
