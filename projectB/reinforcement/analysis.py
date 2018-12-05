@@ -57,7 +57,7 @@ def question3b():
 
 def question3c():
     # Also quite simple. If there is no risk and the long term reward is tempting enough
-    # it will pick the shortest path along the bridge
+    # it will pick the longest path along the bridge
     # https://i.imgur.com/Wfsl1qt.png
     # Red line is the short risky route
     # Blue line is long risky route (this one interests us)
