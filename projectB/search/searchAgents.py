@@ -238,7 +238,7 @@ class StayEastSearchAgent(SearchAgent):
     """
     def __init__(self):
         self.searchFunction = search.uniformCostSearch
-        costFn = lambda pos: .5 ** pos[0]
+        costFn = lambda pos: 0.5 ** pos[0]
         self.searchType = lambda state: PositionSearchProblem(state, costFn, (1, 1), None, False)
 
 class StayWestSearchAgent(SearchAgent):

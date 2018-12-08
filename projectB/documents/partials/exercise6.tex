@@ -1,2 +1,31 @@
- \section{Exercise 6}
-
+\section{Exercise 6}
+A*:  score of 456, 535 nodes expanded, cost of 54, found in 0.1 seconds, chooses down over left
+DFS: score of 212, 576 nodes expanded, cost of 298 in 0.0 seconds, goes as far left then down, then as far right and down
+BFS: score of 456, 682 nodes expanded, cost of 54, found in 0.0 seconds, chooses down over left
+UCS: score of 456, 535 nodes expanded, cost of 54, found in 0.0 seconds, chooses down over left
+BFS searches on a level to level basis, it first looks at every path with length k, if it has not reached the goal 
+it will expand every path in every possible way that has not been visited yet and gets new paths of length k+1.
+DFS searches on a path to path basis, it tries to extent a path as far as possible, constantly going in the same direction
+and only when it can't do that any longer it will try a different direction or go one step back and try a different direction there.
+UCS has a list with paths he has found till that point. It takes the path with the lowest cost, removes it from the list 
+and expands that path in every direction, then it calculates the cost for these new paths and puts these paths in the list. 
+Then it takes the path with the currently lowest cost and keeps repeating this till it finds the goal.
+A* works like UCS, only doesn't just look at the cost so far, but it looks at a combination of the cost so far and the heuristic.
+This heuristic is an estimate of how much it will cost from that point to the goal.
+The difference in nodes expanded between BFS and the other is because BFS will also search in the lower right corner. 
+This happens because BFS does not know that it is useless to look here since the goal is in the lower left corner.
+BFS is in this way a dumb algorithm and just searches in every direction it can, but it does always find the shortest path.
+The terrible performance of DFS and the number of nodes expanded in this case is mainly caused by which direction it tries first. 
+The order it expands is most likely Left, Right, Down & Up. This causes Pacman to go from right to left and left to right
+instead of going straight down. The algorithm will thus first try the path of only left, till it hits a wall and then right 
+is not an option so it goes down one, and then continues right till it gets stuck in the lower right corner of the upper left "chamber"
+in the maze. Then after that it will go to just before it enters that "chamber" and goes down and tries 
+Left, Right, Down in that order. And that causes it to expand a lot of useless nodes. You could change the order in which DFS 
+tries to find a path but then it will perform terrible in other mazes. As follows from the cost, DFS does not find the shortest path.
+A* and UCS expand the fewest nodes because they do not try every possible path. Because the goal is Left-Down from the start state
+they will only go left and down, and that is why they do not have to expand as many nodes.
+A*, UCS and BFS all find the same path because they try to go down before they go left. 
+There is in this example not one shortest path, the algorithm could choose to go left first, then all the way down to the bottom
+and then left to the goal and this would give the same cost. If the order of Left, Right, Down, Up was random at every level of BFS
+it would probably get a path with a lot of 90 degree turns instead of a few straight lines like it gets now, 
+but this would not affect the cost of the path it finds.
