@@ -16,8 +16,7 @@ The difference in nodes expanded between BFS and the other is because BFS will a
 This happens because BFS does not know that it is useless to look here since the goal is in the lower left corner.
 BFS is in this way a dumb algorithm and just searches in every direction it can, but it does always find the shortest path.
 The terrible performance of DFS and the number of nodes expanded in this case is mainly caused by which direction it tries first. 
-The order it expands is most likely Left, Right, Down & Up. This causes Pacman to go from right to left and left to right
-instead of going straight down. The algorithm will thus first try the path of only left, till it hits a wall and then right 
+The order it expands is most likely Left, Right, Down & Up. This causes Pacman to go from right to left and left to right instead of going straight down. The algorithm will thus first try the path of only left, till it hits a wall and then right 
 is not an option so it goes down one, and then continues right till it gets stuck in the lower right corner of the upper left "chamber"
 in the maze. Then after that it will go to just before it enters that "chamber" and goes down and tries 
 Left, Right, Down in that order. And that causes it to expand a lot of useless nodes. You could change the order in which DFS 

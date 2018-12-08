@@ -1,12 +1,15 @@
 \section{Exercise 1}
 \label{sec:ex1}
 \subsection{ex1-a}
-The game state holds all the data that represents the game in the current time frame. bla bla bla.
+The game state holds all the data that represents the game in the current time frame. 
+This includes data like the structure of the level and the agents. The game state can give all legal actions for a given agent.
+The game state can be updated by giving a action for a agent. The game state will copy itself and edit the data of the copy. This results in a new game state, and it is returned.
 \subsection{ex1-b}
-The agent state holds all data that describes an agent in the current time frame. bla bla bla.
+The agent state holds all data that describes an agent in the current time frame, like position and direction.
+You can ask it the position and direction, and it can copy itself. The agent state does not update itself. The copy method is used by other classes to gain a copy, with intention to modify that copy and use it form there.
 \subsection{ex1-c}
 \begin{itemize}
-\item A: II, Stack: Pile of dishes
-\item B: III, Queue: Roller coaster waiting line
-\item C: I, PriorityQueue: Emergency room waiting line
+\item A: II, Stack: Pile of dishes. You can put items on top of the stack, and remove items from the top. The bottom plate is last to be removed.
+\item B: III, Queue: Roller coaster waiting line. You can add items at the back, and remove items at the front. The last person to enter the waiting line is the last person to leave it.
+\item C: I, PriorityQueue: Emergency room waiting line. You can put items in, and the item witn the highest priority leaves first. The person bleeding to death will be helped before the guy with the broken arm, even if he came in first.
 \end{itemize}
