@@ -1,2 +1,72 @@
 \section{Exercise 2}
-\subsection{}
+\subsection{ex2-a}
+\begin{lstlisting}
+class ANode:
+	state
+	previous_state
+	direction
+	cost
+
+start_node = ANode(start, start, None, 0)
+open = PathFindingList()
+closed = PathFindingList()
+road = {}
+end = start_node
+
+open += start_node
+
+#Iterate through all nodes
+while length(open) > 0:
+	#Get the next node the algorithm should try
+	current = open.pop()
+	
+	#If the node is the goal: save it and stop the loop
+	if current.state == goal: 
+		end = current.state 
+		break
+	
+	#If the node is already visited: continue with another node
+	if current.state in closed: continue
+	
+	#Else, it is added to the closed list
+	closed += current
+	
+	#Create new nodes for all connections
+	for conn in connections:
+		#Create a node for a single connection
+		newNode = ANode(conn.state, current.state, conn.direction, current.cost + conn.getCost())
+		
+		#Add the node to the open List so it can be explored later
+		open += newNode
+
+#Construct the path the algorithm took from the start to the end
+path = []
+
+#We start at the goal node
+current = end
+
+#As long as we have not reached the start:
+while current is not start:
+	#We get the previous node
+	prev = current.previous_state
+	
+	#We add the previous node to the path
+	path += prev.state
+	
+	#And then we select the previous node as the current node
+	current = prev
+	
+#Because we get the path from the end to the start state we have to reverse it
+path.reverse()
+
+return path
+
+
+\end{lstlisting}
+
+\subsection{ex2-b}
+The difference between graph-search and tree-search is that in tree-search you can get into loops by 
+going back and forth between two nodes. So in order to make the structure suitable for tree-search,
+you have to allow these kind of loops. You can do this by removing the part were it checks if the 
+current node is in the closed list. Since we now do not look at the closed list anymore, we can just
+get rid of it completely.

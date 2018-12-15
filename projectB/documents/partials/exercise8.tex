@@ -1,2 +1,12 @@
 \section{Exercise 8}
+\subsection{ex8-a}
+Goal-directed task or goal oriented behaviour.
 
+\subsection{ex8-b}
+Yes, assuming the terminal state gives a positive reward it is strongly preferred to reach
+that terminal state as soon as possible. If you look at planning a couple of actions, you would
+like to perform as few actions as possible. This preferred behaviour can be stimulated by 
+using a bigger discount, this way one extra action will lead to a significant lower reward,
+and therefore the algorithm will choose the plan with the fewest actions. If there is not 
+even a single terminal state, the use of a discount is absent. The algorithm can take action
+after action for infinite time and so the total reward will be infinitely great.
