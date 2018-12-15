@@ -19,3 +19,15 @@ therefore the first path must be the cheapest.
 
 
 \subsection{ex5-b}
+mediumDottedMaze: 
+UCS: 68, 208
+StayEast: 1, 186
+StayWest: 17183894840, 169
+The difference can be explained by the different cost functions. UCS uses a normal cost function which
+calculates a cost of 1 per move, no matter the direction. StayEast and StayWest use a formula to calculate the cost. 
+The formula for StayEast is $0.5^{x-coordinate}$, so the farther pacman is to the east, 
+the lower the cost of one move. The goal is the most western point the agent goes to, 
+and so the most expensive move has a cost of $0.5^1 = 0.5$.
+The formula for StayWest is $2^{x-coordinate}$, so the farther pacman is to the east, the higher the cost of one move.
+Therefore the agent wants to take the most western path. So if pacman makes a move with an x-coordinate of 20,
+that move will already cost 1048576. And a move that is 1 to the west will cut the cost in half.
