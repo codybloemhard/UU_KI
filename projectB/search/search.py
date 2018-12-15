@@ -154,10 +154,11 @@ def uniformCostSearch(problem):
     from game import Directions
 
     class ANode:
-        def __init__(self, state, previous_state, direction):
+        def __init__(self, state, previous_state, direction, cost=0):
             self.state = state
             self.previous_state = previous_state
             self.direction = direction
+            self.cost = cost
 
     open = PriorityQueue()
     closed = set()
@@ -179,10 +180,10 @@ def uniformCostSearch(problem):
 
         # Calculate the cost and add to queue
         for successor in problem.getSuccessors(current.state):
-            neighbor = ANode(successor[0], current.state, successor[1])
-            cost = problem.getCostOfActions([neighbor.direction])
+            neighbor = ANode(successor[0], current.state, successor[1], 0)
+            neighbor.cost = current.cost + successor[2]  # c(s') = c(s) + C(s, a, s')
 
-            open.push(neighbor, cost)
+            open.push(neighbor, neighbor.cost)
 
     return []
 
@@ -201,11 +202,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     from game import Directions
 
     class ANode:
-        def __init__(self, state, previous_state, direction, depth=0, h=0):
+        def __init__(self, state, previous_state, direction, h=0):
             self.state = state
             self.previous_state = previous_state
             self.direction = direction
-            self.depth = depth
             self.h = h
             self.g = 0
 
@@ -226,11 +226,11 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         # Check whether we are at the goal
         if problem.isGoalState(current.state): return constructPath(road, start_state, current.state)
 
-        # Calculate the hauristic + g score for each neighbour node
+        # Calculate the heuristic + g score for each neighbour node
         for successor in problem.getSuccessors(current.state):
-            neighbor = ANode(successor[0], current.state, successor[1], current.depth + 1)
-            neighbor.g = current.g + successor[2]
-            neighbor.f = neighbor.g + heuristic(neighbor.state, problem) + problem.getCostOfActions([neighbor.direction])
+            neighbor = ANode(successor[0], current.state, successor[1])
+            neighbor.g = current.g + successor[2]  # g(s') = g(s) + cost(s, a, s')
+            neighbor.f = neighbor.g + heuristic(neighbor.state, problem)  # f(s') = g(s') + h(s')
 
             open.push(neighbor, neighbor.f)
 
