@@ -1,13 +1,4 @@
 \section{Exercise 11}
-notes
-a = learningrate
-e = exploration/mutation rate
-y = discount rate
-
-newQ = (1 - a)oldQ + (a)sample
-sample = reward + y(futureQs)
-if random < e: random step
-else best step
 \subsection{}
 Testing method(also for 11.b):
 I let the the crawler walk until he disappears from the screen at the end.
@@ -134,4 +125,33 @@ randomness to disrupt the crawl, and the crawler will be at his fastest.
 
 \subsection{}
 
+The learningrate has influence on how strong newly learned samples 
+affect the agent, as it is a multiplier for the whole sample.
+The discount value is a multiplier for only a part of the sample.
+It makes the value in the next state less import for the value of the 
+current state. The learningrate dictates how fast the agent adapts, 
+the discount rate dictates how much the agent plans ahead. When you 
+change the learningrate it changes how fast the policy converges and 
+later on how stable the policy stays. But the crawler learns the same 
+policy for different learningrate values: it moves in the same way 
+after the policy is converged. This does not hold for the discountrate.
+A different discountrate produces a different policy: the agent moves 
+differently. A low discount rate will make the agent more focussed on 
+the short term. He want to move forward in the moment. But if he looks 
+ahead he could have seen that a better more effective movement is 
+possible. It is clear when you try out a higher discount, the agent 
+learns a better policy: the crawler moves faster! So does the effect 
+of changing the learningrate depend on the discountrate? No, the effect 
+of the learningrate still effects the way the policy converges the 
+same, it just converges to a different policy.
+
 \subsection{}
+
+The good explorationrate let the agent do random actions to learn from.
+It results in a better policy. The explorationrate and the discountrate
+both affect the policy. The effect can look the same but there is a 
+clear difference. With a low discountrate, a good explorationrate will 
+help find a good shortterm policy. With a high discountrate, a good 
+explorationrate will help find a good longterm policy. They might seem 
+a bit more related to eachother than the case with the learningrate, 
+but they do just like the learningrate really there own thing.
