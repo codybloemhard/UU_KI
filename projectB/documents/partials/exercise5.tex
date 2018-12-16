@@ -19,10 +19,10 @@ therefore the first path must be the cheapest.
 
 
 \subsection{ex5-b}
-mediumDottedMaze: 
-UCS: 68, 208
-StayEast: 1, 186
-StayWest: 17183894840, 169
+mediumDottedMaze:
+UCS: 68 (cost), 208 (number of nodes expanded)
+StayEast: 1 (cost), 186 (number of nodes expanded)
+StayWest: 17183894840 (cost), 169 (number of nodes expanded)
 The difference can be explained by the different cost functions. UCS uses a normal cost function which
 calculates a cost of 1 per move, no matter the direction. StayEast and StayWest use a formula to calculate the cost. 
 The formula for StayEast is $0.5^{x-coordinate}$, so the farther pacman is to the east, 
