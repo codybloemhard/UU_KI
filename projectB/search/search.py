@@ -160,11 +160,10 @@ def uniformCostSearch(problem):
             self.direction = direction
             self.cost = cost
 
+    start_state = problem.getStartState()
     open = PriorityQueue()
     closed = set()
     road = {}
-
-    start_state = problem.getStartState()
 
     open.push(ANode(start_state, start_state, Directions.STOP), 0)
     while not open.isEmpty():
