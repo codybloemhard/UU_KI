@@ -1,72 +1,19 @@
 \section{Exercise 2}
 \subsection{ex2-a}
-\begin{lstlisting}
-class ANode:
-	state
-	previous_state
-	direction
-	cost
 
-start_node = ANode(start, start, None, 0)
-open = PathFindingList()
-closed = PathFindingList()
-road = {}
-end = start_node
-
-open += start_node
-
-#Iterate through all nodes
-while length(open) > 0:
-	#Get the next node the algorithm should try
-	current = open.pop()
-	
-	#If the node is the goal: save it and stop the loop
-	if current.state == goal: 
-		end = current.state 
-		break
-	
-	#If the node is already visited: continue with another node
-	if current.state in closed: continue
-	
-	#Else, it is added to the closed list
-	closed += current
-	
-	#Create new nodes for all connections
-	for conn in connections:
-		#Create a node for a single connection
-		newNode = ANode(conn.state, current.state, conn.direction, current.cost + conn.getCost())
-		
-		#Add the node to the open List so it can be explored later
-		open += newNode
-
-#Construct the path the algorithm took from the start to the end
-path = []
-
-#We start at the goal node
-current = end
-
-#As long as we have not reached the start:
-while current is not start:
-	#We get the previous node
-	prev = current.previous_state
-	
-	#We add the previous node to the path
-	path += prev.state
-	
-	#And then we select the previous node as the current node
-	current = prev
-	
-#Because we get the path from the end to the start state we have to reverse it
-path.reverse()
-
-return path
-
-
-\end{lstlisting}
+For all the exercises we have used following generic code structure:
+\begin{itemize}
+\item [\textbf{fringe}] For all the different search algorithms we have used a fringe to store the unexpanded nodes. Depending on the exercise/search algorithm we have used different fringe datastructure. (Ex. A* uses a priority queue and DFS uses stack).\\
+Before the expansion loop is run we store the starting node in the fringe so expansion can start from there. 
+\item [\textbf{closed list}] Closed list is used to store all the visited nodes to prevent loops from happening. For this we use a "set" datastructure.
+\item [\textbf{road}] Can be compared to a policy. It holds data on which node should be visited from which node. This is used to reconstruct path once a goal node has been reached.
+\item [\textbf{expansion loop}] Is a loop which keeps calling our node expansion code until the fringe is empty.
+\item [\textbf{closed check}] When a node is expanded, we first check if it is closed/visited. If it is, we can safely skip it. If not, then we add it to the closed list.
+\item [\textbf{goal check}] At expansion of a node we check whether the node is the goal state. If it is we reconstruct the path and return it.
+\item [\textbf{retrieve neighbours}] When a node is not the goal node, we loop through each if its neighbours and add them to the fringe. In some of the algorithms costs and heuristics need to be calculated first.
+\item [\textbf{not path found}] This is an edge case where there is no path found. This means the expansion loop has finished without reaching the goal node. In this case we return an empty path.
+\end{itemize}
 
 \subsection{ex2-b}
-The difference between graph-search and tree-search is that in tree-search you can get into loops by 
-going back and forth between two nodes. So in order to make the structure suitable for tree-search,
-you have to allow these kind of loops. You can do this by removing the part were it checks if the 
-current node is in the closed list. Since we now do not look at the closed list anymore, we can just
-get rid of it completely.
+Tree is a special kind of graph where there is exactly one path between each pair of nodes. This implies that there are are no cycles in a tree. Therefore we can scrap the closed list in tree-search. \\
+Assuming the tree is correctly used by the generic structure, no additional changes will be needed.
