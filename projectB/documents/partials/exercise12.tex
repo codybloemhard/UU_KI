@@ -1,2 +1,32 @@
 \section{Exercise 12}
+\subsection{}
+The explorationrate is very low. With the crawler a much higher 
+explorationrate was better. But when you put it higher, pacman starts 
+doing random moves. If pacman does not do the correct move, it is 
+likely that the ghost will get him and it is gameover. This way, pacman
+never gets far in the maze and so it cannot learn about the later stage
+of the game. It seems 0.05 is good because pacman will do 95 percent 
+of the time what he should do. It does mean he learns quite slow, because
+it takes a long time to do something random that will improve the policy.
 
+The discountrate and the learningrate seem like normal value's, they 
+are not so extreme as the explorationrate. The discount of 0.8 is good 
+enough because the maze is not that big, so the agent does not need to 
+plan ahead so much.
+
+\subsection{}
+training games:2000
+average all reward: -517
+average reward last 100 games = -516
+testgames: 10
+winrate: 0
+average score: all below -480
+
+I expected that it would do way better because the smallgrid went
+so well. After 2000 games it did not even changed the average reward.
+
+?? The discountrate is to low, the maze is bigger and the agent needs
+to plan ahead further. ??
+
+It seems that the agent on the medium maze takes a different route
+everytime. The agent on the small maze does not do this.
