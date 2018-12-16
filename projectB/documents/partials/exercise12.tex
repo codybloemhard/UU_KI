@@ -8,25 +8,40 @@ never gets far in the maze and so it cannot learn about the later stage
 of the game. It seems 0.05 is good because pacman will do 95 percent 
 of the time what he should do. It does mean he learns quite slow, because
 it takes a long time to do something random that will improve the policy.
+With a higher explorationrate pacman loses some games, but the 
+games he wins were finished with a little bit higher score.\\
+Average Score: 498.6\\
+Scores:        495.0, 495.0, 499.0, 499.0, 503.0, 495.0, 495.0, 499.0, 503.0, 503.0\\
+Win Rate:      10/10 (1.00)\\
+Record:        Win, Win, Win, Win, Win, Win, Win, Win, Win, Win\\
+Average Score: 300.0\\
+Scores:        503.0, 503.0, 499.0, 499.0, 502.0, 502.0, 502.0, -512.0, -501.0, 503.0\\
+Win Rate:      8/10 (0.80)\\
+Record:        Win, Win, Win, Win, Win, Win, Win, Loss, Loss, Win\\
 
+Lowering the explorationrate will work but than the score's drop down.
 The discountrate and the learningrate seem like normal value's, they 
 are not so extreme as the explorationrate. The discount of 0.8 is good 
 enough because the maze is not that big, so the agent does not need to 
 plan ahead so much.
 
 \subsection{}
-training games:2000
-average all reward: -517
-average reward last 100 games = -516
-testgames: 10
-winrate: 0
-average score: all below -480
+training games:2000\\
+average all reward: -517\\
+average reward last 100 games = -516\\
+testgames: 10\\
+winrate: 0\\
+average score: all below -480\\
 
 I expected that it would do way better because the smallgrid went
 so well. After 2000 games it did not even changed the average reward.
-
-?? The discountrate is to low, the maze is bigger and the agent needs
-to plan ahead further. ??
-
+I thought that discountrate is to low, the maze is bigger and the agent needs
+to plan ahead further. But increasing it yields no improvements.
 It seems that the agent on the medium maze takes a different route
-everytime. The agent on the small maze does not do this.
+everytime. The agent on the small maze does not do this, it has only 
+2 routes. The agent on the medium maze seem quite random. 
+Training it for 4000 games does not fix anything.\\
+Average Score: -527.0\\
+Scores:        -510.0, -496.0, -497.0, -492.0, -537.0, -493.0, -553.0, -661.0, -501.0, -530.0\\
+Win Rate:      0/10 (0.00)\\
+Record:        Loss, Loss, Loss, Loss, Loss, Loss, Loss, Loss, Loss, Loss\\
