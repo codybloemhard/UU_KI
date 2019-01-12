@@ -82,8 +82,6 @@ def enhancedFeatureExtractorDigit(datum):
 
     return features
 
-
-
 def basicFeatureExtractorPacman(state):
     """
     A basic feature extraction function.
@@ -126,7 +124,6 @@ def enhancedPacmanFeatures(state, action):
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
     return features
-
 
 def contestFeatureExtractorDigit(datum):
     """
