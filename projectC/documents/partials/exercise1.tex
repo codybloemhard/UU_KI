@@ -18,6 +18,11 @@ the frequency or probability distributions over the output labels \n
 \subsection{ex1-b}
 Most frequent counts for every possible label how often it appears and then uses the most
 common label to classify an input.
-Naive bayes uses the log-joint distribution. 
+Naive bayes uses the log-joint distribution, so it also looks at how often a label is given,
+but unlike most frequent, it does so for every feature and normalizes the results it found.
 
 \subsection{ex1-c}
+Most frequent does use supervised learning because it directly looks at the labels given 
+to the training data, and uses the most common label to classify all future inputs.
+Naive bayes does also use supervised learning because it looks at the labels by counting 
+how often a lavel A is given to a feature B.
