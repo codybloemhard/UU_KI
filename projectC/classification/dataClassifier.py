@@ -286,11 +286,10 @@ def readCommand( argv ):
 
     if(options.data=="digits"):
         legalLabels = range(10)
-    else:
-        legalLabels = ['Stop', 'West', 'East', 'North', 'South']
-        
+    #else:
+    #    legalLabels = ['Stop', 'West', 'East', 'North', 'South']    
     #Added for exercise 2
-    if(options.data=="faces"):
+    elif(options.data=="faces"):
         legalLabels = range(2)
     else:
         legalLabels = ['Stop', 'West', 'East', 'North', 'South']
