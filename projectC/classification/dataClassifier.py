@@ -288,6 +288,12 @@ def readCommand( argv ):
         legalLabels = range(10)
     else:
         legalLabels = ['Stop', 'West', 'East', 'North', 'South']
+        
+    #Added for exercise 2
+    if(options.data=="faces"):
+        legalLabels = range(2)
+    else:
+        legalLabels = ['Stop', 'West', 'East', 'North', 'South']
 
     if options.training <= 0:
         print "Training set size should be a positive integer (you provided: %d)" % options.training
@@ -375,13 +381,22 @@ def runClassifier(args, options):
         rawTrainingData, trainingLabels = samples.loadPacmanData(trainingData, numTraining)
         rawValidationData, validationLabels = samples.loadPacmanData(validationData, numTest)
         rawTestData, testLabels = samples.loadPacmanData(testData, numTest)
+    
+    #Added for exercise 2
+    elif(options.data=="faces"):
+    	rawTrainingData = samples.loadDataFile("facedata/trainingimages", numTraining,FACE_DATUM_WIDTH,FACE_DATUM_HEIGHT)
+        trainingLabels = samples.loadLabelsFile("facedata/traininglabels", numTraining)
+        rawValidationData = samples.loadDataFile("facedata/validationimages", numTest,FACE_DATUM_WIDTH,FACE_DATUM_HEIGHT)
+        validationLabels = samples.loadLabelsFile("facedata/validationlabels", numTest)
+        rawTestData = samples.loadDataFile("facedata/testimages", numTest,FACE_DATUM_WIDTH,FACE_DATUM_HEIGHT)
+        testLabels = samples.loadLabelsFile("facedata/testlabels", numTest)
     else:
-        rawTrainingData = samples.loadDataFile("digitdata/trainingimages", numTraining,DIGIT_DATUM_WIDTH,DIGIT_DATUM_HEIGHT)
-        trainingLabels = samples.loadLabelsFile("digitdata/traininglabels", numTraining)
-        rawValidationData = samples.loadDataFile("digitdata/validationimages", numTest,DIGIT_DATUM_WIDTH,DIGIT_DATUM_HEIGHT)
-        validationLabels = samples.loadLabelsFile("digitdata/validationlabels", numTest)
-        rawTestData = samples.loadDataFile("digitdata/testimages", numTest,DIGIT_DATUM_WIDTH,DIGIT_DATUM_HEIGHT)
-        testLabels = samples.loadLabelsFile("digitdata/testlabels", numTest)
+        rawTrainingData = samples.loadDataFile("digitdata/facedatatrain", numTraining,DIGIT_DATUM_WIDTH,DIGIT_DATUM_HEIGHT)
+        trainingLabels = samples.loadLabelsFile("digitdata/facedatatrainlabels", numTraining)
+        rawValidationData = samples.loadDataFile("digitdata/facedatavalidation", numTest,DIGIT_DATUM_WIDTH,DIGIT_DATUM_HEIGHT)
+        validationLabels = samples.loadLabelsFile("digitdata/facedatavalidationlabels", numTest)
+        rawTestData = samples.loadDataFile("digitdata/facedatatest", numTest,DIGIT_DATUM_WIDTH,DIGIT_DATUM_HEIGHT)
+        testLabels = samples.loadLabelsFile("digitdata/facedatatestlabels", numTest)
 
 
     # Extract features

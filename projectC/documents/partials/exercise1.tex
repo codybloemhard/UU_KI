@@ -11,7 +11,10 @@ and a 1 indicates a gray/black pixel. For faces a 0 indicates no edge and a 1 in
 
 
 the output labels and what they represent \n
-
+For digits there are 10 possible labels. These are the numbers 0 to 9, and they represent 
+the numbers 0 to 9.
+For faces there are 2 possible labels: 1 and 0, because it's either a face or it's not. 
+Here a 1 represents a face, and a 0 represents it's not a face
 
 the frequency or probability distributions over the output labels \n
 
@@ -25,4 +28,4 @@ but unlike most frequent, it does so for every feature and normalizes the result
 Most frequent does use supervised learning because it directly looks at the labels given 
 to the training data, and uses the most common label to classify all future inputs.
 Naive bayes does also use supervised learning because it looks at the labels by counting 
-how often a lavel A is given to a feature B.
+how often a level A is given to a feature B.
