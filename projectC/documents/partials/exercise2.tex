@@ -11,11 +11,61 @@ Naive Bayes   & digits & 69\%       & 55\%    & 2 \\
 
 \end{tabular}
 \end{table}
+\\
+\\
+
+What is important to know is that for digits there are ten possible labels and for faces there
+are only two possible labels. This means that if you randomly guess you will have a higher chance
+of guessing correctly with the faces data set. This is what happens for the most frequent 
+classifier. The classifier found the most common label in the training set and apparently 
+this label also appears with an above average frequency in the validation and testing set.
+Therefore the scores for digits is 14\% instead of 10\%, which would be the case if all labels
+were equally common in the test and validation set. And the same is true for faces, if both 
+labels were equally common in the test and validation set, then the scores would be 50\%, 
+instead of 56\% and 53\%.
+The naive bayes classifier scores higher because it really looks at the image. It tries to
+find good features that really help distinguish between the different labels.
+The score for faces is higher for naive bayes because with the digits the different images will
+overlap, even though they are not necessarily the same label. This is because multiple digits 
+have, for example, a curve in the top. And with faces it is easier to find a feature that
+distinguishes well, because there are only two possible options.
 
 \subsection{ex2-b}
+Imagine we have 5 possible labels, these labels do not occur with the same frequency, but rather
+one label is quite rare. Then we can have a big training set where this label does not occur. 
+And so the classifier will assign a probability of 0 to it. Then when we come across an input
+in our test data with this label, the classifier can not possibly assign the correct label.
+In order to prevent this, and make sure that every label has a chance to be assigne, we use 
+laplace smoothing. 
+This entails that we will always add a  standard value to the frequency of a label. 
+The probability used to be: frequency of a label divided by the total number of elements 
+in the training data. But with laplace smoothing it becomes: (frequency of a label + 1) /
+ (number of elements + number of labels).
 
 \subsection{ex2-c}
+\begin{table}[]
+\begin{tabular}{|l|l||l|l||l|}
+\hline
+Classifier    & data   & Validation & testing & k \\ \hline
+Naive Bayes   & digits & 74\%       & 65\%    & 0.1 \\ 
+              & faces  & 85\%       & 82\%    & 0.05 \\ \hline
+\end{tabular}
+\end{table}
+\\
+\\
+The autotune option finds the best value for k among these [0.001, 0.01, 0.05, 0.1, 0.5, 
+1, 5, 10, 20, 50]. And then the classifier uses the best k value that was found for the
+validation and test set. 
+This option helps to improve the score for the naive bayes classifier and will in general 
+always give better scores. It is better for both data sets, but there could be a dataset 
+where a k of 2 would give the best scores and there the autotune would give worse scores.
+What does stay the same is the presence of a difference between accuracy on validation and 
+testing set. Autotune will always choose a k that performs best on the validation set, 
+but this is not necessarily the best k for the test set.
 
 \subsection{ex2-d}
+For naive bayes the validation set can be used to get a good k value and make sure we do not
+get a classifier that does really well on the training set but poorly on other sets.
+
 
 \subsection{ex2-e}
