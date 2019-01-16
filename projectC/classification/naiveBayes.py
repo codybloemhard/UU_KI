@@ -146,7 +146,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         To get the list of all possible features or labels, use self.features and
         self.legalLabels.
         """
-        logJoint = util.Counter()
+        logJoint = util.Counter() # output between 0 and -infinity
 
         for label in self.legalLabels:
             logJoint[label] = math.log(self.prior[label])
