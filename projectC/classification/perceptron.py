@@ -14,7 +14,9 @@
 
 # Perceptron implementation
 import util
+
 PRINT = True
+
 
 class PerceptronClassifier:
     """
@@ -23,19 +25,20 @@ class PerceptronClassifier:
     Note that the variable 'datum' in this code refers to a counter of features
     (not to a raw samples.Datum).
     """
-    def __init__( self, legalLabels, max_iterations):
+
+    def __init__(self, legalLabels, max_iterations):
         self.legalLabels = legalLabels
         self.type = "perceptron"
         self.max_iterations = max_iterations
         self.weights = {}
         for label in legalLabels:
-            self.weights[label] = util.Counter() # this is the data-structure you should use
+            self.weights[label] = util.Counter()  # this is the data-structure you should use
 
     def setWeights(self, weights):
-        assert len(weights) == len(self.legalLabels);
-        self.weights = weights;
+        assert len(weights) == len(self.legalLabels)
+        self.weights = weights
 
-    def train( self, trainingData, trainingLabels, validationData, validationLabels ):
+    def train(self, trainingData, trainingLabels, validationData, validationLabels):
         """
         The training loop for the perceptron passes through the training data several
         times and updates the weight vector for each label based on classification errors.
@@ -47,7 +50,7 @@ class PerceptronClassifier:
         (and thus represents a vector a values).
         """
 
-        self.features = trainingData[0].keys() # could be useful later
+        self.features = trainingData[0].keys()  # could be useful later
         # DO NOT ZERO OUT YOUR WEIGHTS BEFORE STARTING TRAINING, OR
         # THE AUTOGRADER WILL LIKELY DEDUCT POINTS.
 
@@ -55,25 +58,23 @@ class PerceptronClassifier:
             print "Starting iteration ", iteration, "..."
             for i in range(len(trainingData)):
                 "*** YOUR CODE HERE ***"
-                labelScores = []						#Lijst met scores voor ieder mogelijk label
-                elementI = trainingData[i]				#Het plaatje waar je score voor moet berekenen
-                for LegalLabel in self.legalLabels:		#Voor alle mogelijke labels
-                	score = elementI * self.weights[LegalLabel] #berekent de score voor een mogelijk label
-                	labelScores.append(score)			#voeg hem toe aan de lijst
-                	
-                bestLabel = max(labelScores)			#krijg
-                bestLabelIndex = 0
-                for ScoreIndex in range(len(labelScores)):
-                	if labelScores[ScoreIndex] = bestLabel:
-                		bestLabelIndex = ScoreIndex
-                
-                if (bestLabel != trainingLabels[i]):
-                	self.weights[bestLabelIndex] -= trainingData[i]
-                	self.weights[trainingLabels[i]] += trainingData[i]
-                	
-                #util.raiseNotDefined()
+                # Gather feature and label data
+                f = trainingData[i]
+                y = trainingLabels[i]
 
-    def classify(self, data ):
+                # Calculate the scores
+                scores = [f * self.weights[label] for label in self.legalLabels]
+
+                # Extract best label candidate
+                yprime = max(scores)
+                yprime_index = scores.index(yprime)
+
+                # Correct the weights
+                if yprime != y:
+                    self.weights[yprime_index] -= f
+                    self.weights[y] += f
+
+    def classify(self, data):
         """
         Classifies each datum as the label that most closely matches the prototype vector
         for that label.  See the project description for details.
@@ -87,7 +88,6 @@ class PerceptronClassifier:
                 vectors[l] = self.weights[l] * datum
             guesses.append(vectors.argMax())
         return guesses
-
 
     def findHighWeightFeatures(self, label):
         """
