@@ -11,9 +11,27 @@ Conditional probability can also be written as P(A^B) = P(A|B)P(B) . With this w
 the same result as posterior probability multiplied with probability of P(B). \\
 Using log in joint probabilities achieves same result as described earlier because sum of logarithms of the
 probabilities is equivalent to the log of the product of all the probabilities.
-//
+\\
 TODO: I could be wrong here at my first point. Doublecheck
 
 \subsection{ex3-c}
+\begin{table}[]
+\begin{tabular}{l|llllll}
+                    & 0.55   & 0.60   & 0.65   & 0.70   & 0.75   & 0.80   \\ \cline{2-7}
+accuracy test       & 56.0\% & 56.0\% & 56.0\% & 56.0\% & 56.0\% & 56.0\% \\ \cline{2-7}
+accuracy validation & 53.0\% & 53.0\% & 53.0\% & 53.0\% & 53.0\% & 53.0\%
+\end{tabular}
+\end{table}
+\\
+Thresholding does not seem to to improve performance. It rather worsens the performance by introducing more false
+negatives. The posterior probabilities are all around 50% for which thresholding by the given amounts is too much. This
+is because features are of a low quality.
+//
+
+TODO: this cant be right. Reproduce dataClassifier.py -c naiveBayes -d faces -k 0.1 --threshold=0.45,0.55
 
 \subsection{ex3-d}
+The naive bayes classifier would be more biased towards classifying numbers as even numbers. Normally one would need to
+balance the dataset first, but this would require retraining. Since naive bayes works using frequency counting we can
+also correct the amount of even number occurences in the frequency table by reducing them by 50%. This would balance the
+dataset out.
