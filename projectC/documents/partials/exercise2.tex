@@ -64,8 +64,32 @@ testing set. Autotune will always choose a k that performs best on the validatio
 but this is not necessarily the best k for the test set.
 
 \subsection{ex2-d}
-For naive bayes the validation set can be used to get a good k value and make sure we do not
+For naive bayes: first it gets the classifier by looking at the training set, then the 
+validation set can be used to get a good k value and make sure we do not
 get a classifier that does really well on the training set but poorly on other sets.
+And as last it is tested on the test set to get an indication of how the classifier will
+perform on real life data sets.
+For  most frequent: it gets the classifier by looking at the training set. It looks which label
+is the most common and then uses that as classifier. It does nothing important with the validation set.
+It merely looks what score it gets on there. Then it uses the test set to get an indication 
+of how the classifier will perform on real life data sets.
 
 
 \subsection{ex2-e}
+Test set, because the validation set can be use to fine tune the classifier and rule out any
+form of overfitting. This happens with the naive bayes classifier when the autotune option enable. 
+The validation test is used to get the best k value from the training data.
+The test set is always used to get an indication of how the classifier will perform on real
+life data sets.
+
+
+
+
+
+
+
+
+
+
+
+
