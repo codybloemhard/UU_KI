@@ -1,6 +1,22 @@
 \section{Exercise 6}
 \subsubsection{ex6-a}
+By limiting weight change extreme outliers can not influence the weights as much. By not limiting the weight change
+large errors may cause weights to overshoot the minima which causes the weights converge slower. Because there is a large
+number of features, they may vary a lot in values which may cause such a slowdown.
+// TODO improve answer (many features)
 
 \subsubsection{ex6-b}
+Autotune trains the model with different values for constant C and picks the best value which achieves the best
+accuracy.\\
+Autotune has used three different values for C {0.002, 0.004, 0.008}. Between those value of 0.004 for C has given the
+highest accuracy on the validation set. \\
+MIRA has given 68.0% on the validation and 62.0% on training datasets with C=0.004 whereas perceptron has gives 55.0%
+for validation and 48.0% for training dataset. Naive bayes gives 74.0% on the validation and 65.0% on training datasets
+with k=0.1.\\
+MIRA has better performance than perceptron but performs worse than best naive bayes. \\
+MIRA performs better than perceptron because it limits the learning rate and tries to put a margin between the
+boundaries which gives it an advantage at classifying unseen data points. \\
+MIRA itself is still perceptron based and does not handle inseparable data. Classify digits with pixels as features is
+an example of inseparable data and therefore causes MIRA perform worse than naive bayes.
 
 \subsubsection{ex6-c}
