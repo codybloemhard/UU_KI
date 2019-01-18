@@ -20,3 +20,9 @@ MIRA itself is still perceptron based and does not handle inseparable data. Clas
 an example of inseparable data and therefore causes MIRA perform worse than naive bayes.
 
 \subsubsection{ex6-c}
+The first thing to notice when comparing most relevant weights from perceptron and mira is that more dense regions on
+the perceptron are even denser in mira and less dense regions are less dense at MIRA. This is mostly noticable with
+digits like 7 and 5.\\
+The only difference between the two algorithms is the learning rate. MIRA adds a variable learning rate which tries to
+add a margin between between the boundaries. This is responsible for making regions more or less dense than they are on
+the perceptron.
