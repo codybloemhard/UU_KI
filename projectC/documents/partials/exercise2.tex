@@ -11,18 +11,16 @@ Naive Bayes   & digits & 69\%       & 55\%    & 2 \\
 
 \end{tabular}
 \end{table}
-\\
-\\
 
 What is important to know is that for digits there are ten possible labels and for faces there
 are only two possible labels. This means that if you randomly guess you will have a higher chance
 of guessing correctly with the faces data set. This is what happens for the most frequent 
 classifier. The classifier found the most common label in the training set and apparently 
-this label also appears with an above average frequency in the validation and testing set.
+this label also appears with an above average frequency in the validation and testing set.\\
 Therefore the scores for digits is 14\% instead of 10\%, which would be the case if all labels
 were equally common in the test and validation set. And the same is true for faces, if both 
 labels were equally common in the test and validation set, then the scores would be 50\%, 
-instead of 56\% and 53\%.
+instead of 56\% and 53\%.\\
 The naive bayes classifier scores higher because it really looks at the image. It tries to
 find good features that really help distinguish between the different labels.
 The score for faces is higher for naive bayes because with the digits the different images will
@@ -51,8 +49,7 @@ Naive Bayes   & digits & 74\%       & 65\%    & 0.1 \\
               & faces  & 85\%       & 82\%    & 0.05 \\ \hline
 \end{tabular}
 \end{table}
-\\
-\\
+
 The autotune option finds the best value for k among these [0.001, 0.01, 0.05, 0.1, 0.5, 
 1, 5, 10, 20, 50]. And then the classifier uses the best k value that was found for the
 validation and test set. 

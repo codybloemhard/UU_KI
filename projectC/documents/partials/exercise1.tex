@@ -1,31 +1,31 @@
 \section{Exercise 1}
 \label{sec:ex1}
 \subsection{ex1-a}
-number of input features + what they represent \n
+number of input features + what they represent \\
 Images are converted into 2 dimensional arrays with size 28x28 for digits and 60x74 for faces.
 In these arrays every element represents one pixel of the image. 
 
-the possible values and what these represent \n
+the possible values and what these represent \\
 For every element in the array there are two options. For digits a 0 indicates a white pixel
 and a 1 indicates a gray/black pixel. For faces a 0 indicates no edge and a 1 indicates an edge.
 
 
-the output labels and what they represent \n
+the output labels and what they represent \\
 For digits there are 10 possible labels. These are the numbers 0 to 9, and they represent 
 the numbers 0 to 9.
 For faces there are 2 possible labels: 1 and 0, because it's either a face or it's not. 
 Here a 1 represents a face, and a 0 represents it's not a face
 
-the frequency or probability distributions over the output labels \n
+the frequency or probability distributions over the output labels \\
 
 \subsection{ex1-b}
 Most frequent counts for every possible label how often it appears and then uses the most
-common label to classify an input.
+common label to classify an input.\\
 Naive bayes uses the log-joint distribution, so it also looks at how often a label is given,
 but unlike most frequent, it does so for every feature and normalizes the results it found.
 
 \subsection{ex1-c}
 Most frequent does use supervised learning because it directly looks at the labels given 
-to the training data, and uses the most common label to classify all future inputs.
+to the training data, and uses the most common label to classify all future inputs.\\
 Naive bayes does also use supervised learning because it looks at the labels by counting 
 how often a level A is given to a feature B.

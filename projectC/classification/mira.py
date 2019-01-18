@@ -31,6 +31,7 @@ class MiraClassifier:
         self.type = "mira"
         self.automaticTuning = False
         self.C = 0.001
+        #self.C = 0.004
         self.legalLabels = legalLabels
         self.max_iterations = max_iterations
         self.initializeWeightsToZero()
@@ -139,3 +140,32 @@ class MiraClassifier:
                 vectors[l] = self.weights[l] * datum
             guesses.append(vectors.argMax())
         return guesses
+
+    def findHighOddsFeatures(self, label1, label2):
+        """
+        Returns the 100 best features for the odds ratio:
+                P(feature=1 | label1)/P(feature=1 | label2)
+
+        Note: you may find 'self.features' a useful way to loop through all possible features
+        """
+        featuresOdds = []
+
+        for feat in self.features:
+            featuresOdds.append((self.conditionalProb[feat, label1]/self.conditionalProb[feat, label2], feat))
+        featuresOdds.sort()
+        featuresOdds = [feat for val, feat in featuresOdds[-100:]]
+
+        return featuresOdds
+
+    def findHighWeightFeatures(self, label):
+        """
+        Returns a list of the 100 features with the greatest weight for some label
+        """
+        # Gather feature weights for a label
+        w = self.weights[label]
+
+        # Sort them by highest first and return array with their indices
+        top_features = list(reversed(sorted(w.keys(), key=lambda k: w[k])))
+
+        # return 100 highest features
+        return top_features[:100]

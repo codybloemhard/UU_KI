@@ -2,12 +2,12 @@
 \subsection{ex3-a}
 Because there are a lot of features which vary between zero and one multiplying them together can yield very small
 numbers. These numbers in some cases cannot be represented using float and double types.\\
-A workaround for this is representing probabilities a log probabilities. This way their values are between -\infty and 0.\\
+A workaround for this is representing probabilities a log probabilities. This way their values are between -$\infty$ and 0.\\
 Also because of this we no longer use product, but use summation instead. This works since sum of logarithms is
 equivalent to the log of the product of all the probabilities.
 
 \subsection{ex3-b}
-Conditional probability can also be written as P(A^B) = P(A|B)P(B) . With this we can see that joint probability yields
+Conditional probability can also be written as P(A\^B) = P(A|B)P(B) . With this we can see that joint probability yields
 the same result as posterior probability multiplied with probability of P(B). \\
 Using log in joint probabilities achieves same result as described earlier because sum of logarithms of the
 probabilities is equivalent to the log of the product of all the probabilities.
@@ -22,11 +22,9 @@ accuracy test       & 56.0\% & 56.0\% & 56.0\% & 56.0\% & 56.0\% & 56.0\% \\ \cl
 accuracy validation & 53.0\% & 53.0\% & 53.0\% & 53.0\% & 53.0\% & 53.0\%
 \end{tabular}
 \end{table}
-\\
 Thresholding does not seem to to improve performance. It rather worsens the performance by introducing more false
 negatives. The posterior probabilities are all around 50% for which thresholding by the given amounts is too much. This
-is because features are of a low quality.
-//
+is because features are of a low quality.//
 
 TODO: this cant be right. Reproduce dataClassifier.py -c naiveBayes -d faces -k 0.1 --threshold=0.45,0.55
 
