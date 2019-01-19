@@ -115,3 +115,4 @@ venv.bak/
 *.synctex.gz
 *.bbl
 *.blg
+*.dvi
