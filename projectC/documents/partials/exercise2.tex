@@ -33,7 +33,7 @@ Imagine we have 5 possible labels, these labels do not occur with the same frequ
 one label is quite rare. Then we can have a big training set where this label does not occur. 
 And so the classifier will assign a probability of 0 to it. Then when we come across an input
 in our test data with this label, the classifier can not possibly assign the correct label.
-In order to prevent this, and make sure that every label has a chance to be assigne, we use 
+In order to prevent this, and make sure that every label has a chance to be assigned, we use 
 laplace smoothing. 
 This entails that we will always add a  standard value to the frequency of a label. 
 The probability used to be: frequency of a label divided by the total number of elements 
@@ -73,20 +73,6 @@ of how the classifier will perform on real life data sets.
 
 
 \subsection{ex2-e}
-Test set, because the validation set can be use to fine tune the classifier and rule out any
+The test set is used to het an indication of the expected performance in the real world. This is because the data in the test set is not used for training. This means it is not overfit on the test set and you can see how well the classifier generalizes. This is import, for it will receive data it has not been trained on either in the real world. The validation set can be use to fine tune the classifier and rule out any
 form of overfitting. This happens with the naive bayes classifier when the autotune option enable. 
 The validation test is used to get the best k value from the training data.
-The test set is always used to get an indication of how the classifier will perform on real
-life data sets.
-
-
-
-
-
-
-
-
-
-
-
-
