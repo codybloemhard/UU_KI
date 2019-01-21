@@ -74,9 +74,6 @@ class PerceptronClassifier:
                     self.weights[yprime_index] -= f
                     self.weights[y] += f
 
-		print len(self.weights[3])
-		print len(trainingData[3])
-		
     def classify(self, data):
         """
         Classifies each datum as the label that most closely matches the prototype vector
