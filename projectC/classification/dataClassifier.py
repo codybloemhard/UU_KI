@@ -119,6 +119,16 @@ def enhancedFeatureExtractorPacman(state):
         features[action] = util.Counter(features[action], **enhancedPacmanFeatures(state, action))
     return features, state.getLegalActions()
 
+# helpers
+def findClosest(listofpos, refpos):
+    dist = 100000
+    pos = (0,0)
+    for p in listofpos:
+        d = (refpos[0]-p[0])**2 + (refpos[1]-p[1])**2
+        if(d < dist):
+            dist = d
+            pos = p
+    return pos
 
 def enhancedPacmanFeatures(state, action):
     """
@@ -126,9 +136,35 @@ def enhancedPacmanFeatures(state, action):
     It should return a counter with { <feature name> : <feature value>, ... }
     """
     features = util.Counter()
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
-    return features
+    for action in state.getLegalActions():
+        succ = state.generateSuccessor(0, action) # to succ or to be cool and good?
+        # food
+        features['foodn'] = succ.getFood().count()
+        # pacman pos
+        pacpos = succ.getPacmanPosition()
+        features['pacposx'] = pacpos[0]
+        features['pacposy'] = pacpos[1]
+        # closest ghost pos
+        gpos = findClosest(succ.getGhostPositions(), pacpos)
+        features['gposx'] = gpos[0]
+        features['gposy'] = gpos[1]
+        # closest capsule
+        cpos = findClosest(succ.getCapsules(), pacpos)
+        features['cposx'] = cpos[0]
+        features['cposy'] = cpos[1]
+        # closest food
+        '''
+        allfoods = []
+        fgrid = succ.getFood()
+        for x in range(len(fgrid)):
+            for y in range(len(fgrid[x])):
+                if(fgrid[x][y] == True):
+                    allfoods.append(succ.getFood()[x][y])
+        fpos = findClosest(allfoods, pacpos)
+        features['fposx'] = fpos[0]
+        features['fposy'] = fpos[1]
+        '''
+        return features
 
 
 def contestFeatureExtractorDigit(datum):
