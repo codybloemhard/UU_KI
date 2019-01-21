@@ -134,7 +134,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         self.posteriors = [] # Log posteriors are stored for later data analysis (autograder).
         for datum in testData:
             posterior = self.calculateLogJointProbabilities(datum)
-            for i in posterior.keys(): posterior[i] *= self.thresholdValues[i]
+            # ln ( x y ) = ln ( x ) + ln ( y )
+            for i in posterior.keys(): posterior[i] = posterior[i] + math.log(self.thresholdValues[i])
             guesses.append(posterior.argMax())
             self.posteriors.append(posterior)
         return guesses
