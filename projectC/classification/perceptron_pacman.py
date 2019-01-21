@@ -49,5 +49,10 @@ class PerceptronClassifierPacman(PerceptronClassifier):
         for iteration in range(self.max_iterations):
             print "Starting iteration ", iteration, "..."
             for i in range(len(trainingData)):
-                "*** YOUR CODE HERE ***"
-                util.raiseNotDefined()
+                data = trainingData[i] # tuple(counter,list<string>)
+                label = trainingLabels[i] # this is the correct answer
+                guess = self.classify([data])[0] # classifier guesses
+                if guess == label: # if is guesses correct, go on
+                    continue
+                self.weights -= data[0][guess] # else we must correct the weights
+                self.weights += data[0][label] # by decreasing the wrong value and increasing the right value
