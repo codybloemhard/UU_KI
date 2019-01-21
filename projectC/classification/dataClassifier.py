@@ -78,11 +78,40 @@ def enhancedFeatureExtractorDigit(datum):
     ##
     """
     features = basicFeatureExtractorDigit(datum)
+    features_ret = features  # util.Counter()
 
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    holes = -1  # there is always just background
+    closed = set()
+    for x in range(DIGIT_DATUM_WIDTH):
+        for y in range(DIGIT_DATUM_HEIGHT):
+            if features[(x, y)] == 0 and (x, y) not in closed:
+                holes += 1
+                hole_size, closed = expand_pixel((x, y), datum, closed)
 
-    return features
+    features_ret[(0, 'holes')] = 1 if holes <= 0 else 0
+    features_ret[(1, 'holes')] = 1 if holes == 1 else 0
+    features_ret[(2, 'holes')] = 1 if holes >= 2 else 0
+
+    return features_ret
+
+
+def expand_pixel(pos, datum, closed=None):
+    open = [pos]
+    closed = set() if closed is None else closed
+
+    res = 0
+    while open:
+        x, y = open.pop()
+        if (x, y) in closed: continue
+        closed.add((x, y))
+        res += 1
+
+        neighbours = [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+        for (nx, ny) in neighbours:
+            if (0 <= nx < DIGIT_DATUM_WIDTH) and (0 <= ny < DIGIT_DATUM_HEIGHT) and datum.getPixel(nx, ny) == 0:
+                open.append((nx, ny))
+
+    return res, closed
 
 
 def basicFeatureExtractorPacman(state):
@@ -382,11 +411,12 @@ MAP_AGENT_TO_PATH_OF_SAVED_GAMES = {
     'FoodAgent': ('pacmandata/food_training.pkl', 'pacmandata/food_validation.pkl', 'pacmandata/food_test.pkl'),
     'StopAgent': ('pacmandata/stop_training.pkl', 'pacmandata/stop_validation.pkl', 'pacmandata/stop_test.pkl'),
     'SuicideAgent': (
-    'pacmandata/suicide_training.pkl', 'pacmandata/suicide_validation.pkl', 'pacmandata/suicide_test.pkl'),
+        'pacmandata/suicide_training.pkl', 'pacmandata/suicide_validation.pkl', 'pacmandata/suicide_test.pkl'),
     'GoodReflexAgent': (
-    'pacmandata/good_reflex_training.pkl', 'pacmandata/good_reflex_validation.pkl', 'pacmandata/good_reflex_test.pkl'),
+        'pacmandata/good_reflex_training.pkl', 'pacmandata/good_reflex_validation.pkl',
+        'pacmandata/good_reflex_test.pkl'),
     'ContestAgent': (
-    'pacmandata/contest_training.pkl', 'pacmandata/contest_validation.pkl', 'pacmandata/contest_test.pkl')
+        'pacmandata/contest_training.pkl', 'pacmandata/contest_validation.pkl', 'pacmandata/contest_test.pkl')
 }
 
 
@@ -448,7 +478,7 @@ def runClassifier(args, options):
     guesses = classifier.classify(validationData)
     correct = [guesses[i] == validationLabels[i] for i in range(len(validationLabels))].count(True)
     print str(correct), ("correct out of " + str(len(validationLabels)) + " (%.1f%%).") % (
-                100.0 * correct / len(validationLabels))
+            100.0 * correct / len(validationLabels))
     print "Testing..."
     guesses = classifier.classify(testData)
     correct = [guesses[i] == testLabels[i] for i in range(len(testLabels))].count(True)

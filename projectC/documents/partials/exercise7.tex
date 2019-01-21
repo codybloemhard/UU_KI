@@ -2,11 +2,43 @@
 \subsection{ex7-a}
 No naive bayes classifier is not a suitable instrument for classifying digits because it assumes the values of the
 features are independent of the values of any other features given a class variable. This is not true because digits
-aren't made of independent pixels. They are made of lines / curve segements which together for a digit. Therefore it
+aren't made of independent pixels. They are made of lines / curve segements which together form a digit. Therefore it
 is possible that values of features are dependent on other features.
 
 \subsection{ex7-b}
+Given command shows all the features which are more likely to belong to label 4 in comparison to label 2. -1 and -2 take
+as argument the labels that need to be compared. Since features belong to pixels, these features are drawn again as
+pixels/characters. The likelyness is represented by the weights. The label that has a higher weight for a feature in
+comparison with another, then it is more likely to represent that label.
 
 \subsection{ex7-c}
+In the following list we describe a few features which would have a positive impact at classifying digits. Some of these
+are non binary or take up multiple binary inputs.
+\begin{description}
+\item[Hole count] Some digits have holes. Some have multiple. For example if a digit has 2 holes, then is is quite
+certain that it is an 8 since only 8 has 2 holes. We can count holes by partitioning image into multiple groups of
+empty/black pixels which are in direct contact. If we reduce this number by once, since background doesnt count as a
+hole. Then we can map it into 3 binary features (has no holes, 1 hole, 2 or more). This feature is implemented in our
+code and has increased the performance.
+
+\item[Curvature/Convexity defects] Almost all digits are concave except zero. One can fit a polygon around the borders of white pixels
+and reduce it to have fewer polygons. This way one can determine the count of convexity defects in the shape using
+gift wrapping algorithm. Then this can be stored in multiple binary features (Ex. 0, 1, 2, 3 convex defects). This way
+a number can be determined quite accurately. 0 has 0 defects, 1 has 1 defect 2 has 2 defects, 3 has 3 defects, 4 has
+3/1 defects and 9 has 1 defect.
+
+\item[Color cross rate] One can count how many times pixel color changes (white -> black) in a row or column and add 3
+binary features for each row/column representing 0, 1 or 2 color changes. This is another way to determine if the input
+has holes. Since 9 would have highest values in top rows meanwhile 6 would have those in lower rows.
+
+\item[Density] One could split the shape into multiple smaller squares and calculate the density/amount of white pixels
+in the given region. Then represent each square in as a binary feature. One could use 0 als "not dense" or "less than 50% is filled"
+while 1 gives the opposite. Some digits have high density in their corners. These corners have different positions for every digit.
+\end{description}
 
 \subsection{ex7-d}
+We have implemented the first described feature. We have done this by taking each pixel not in closed list and expanding
+it in all directions using depth first search. Neighbours that are out of bounds or are a white pixel are not added.\\
+This has increased the accuracy on the test set from 78\% to 84\% which is quite an improvement and it makes sense since
+this is a string indicator which type of digit it is. Digit 8 can be easily classified since its the only that has 2
+holes. Also numbers 1, 2, 3 cant be mistaken for other numbers since they dont have any holes.
