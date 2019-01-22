@@ -151,13 +151,11 @@ def enhancedFeatureExtractorPacman(state):
 # helpers
 def findClosest(listofpos, refpos):
     dist = 100000
-    pos = (0,0)
     for p in listofpos:
-        d = (refpos[0]-p[0])**2 + (refpos[1]-p[1])**2
+        d = ((refpos[0]-p[0])**2) + ((refpos[1]-p[1])**2)
         if(d < dist):
             dist = d
-            pos = p
-    return pos
+    return dist
 
 def enhancedPacmanFeatures(state, action):
     """
@@ -165,27 +163,28 @@ def enhancedPacmanFeatures(state, action):
     It should return a counter with { <feature name> : <feature value>, ... }
     """
     features = util.Counter()
-    for action in state.getLegalActions():
-        succ = state.generateSuccessor(0, action) # to succ or to be cool and good?
-        # food
-        features['foodn'] = succ.getFood().count()
-        # pacman pos
-        pacpos = succ.getPacmanPosition()
-        features['pacposx'] = pacpos[0]
-        features['pacposy'] = pacpos[1]
-        # closest ghost pos
-        gpos = findClosest(succ.getGhostPositions(), pacpos)
-        features['gposx'] = gpos[0]
-        features['gposy'] = gpos[1]
-        # closest capsule
+    succ = state.generateSuccessor(0, action) # to succ or to be cool and good?
+    # scores
+    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
+    features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
+    # pacman pos
+    pacpos = succ.getPacmanPosition()
+    # closest ghost pos
+    gpos = findClosest(succ.getGhostPositions(), pacpos)
+    features['ghost'] = 1.0 / (gpos+1)
+    # closest capsule
+    if(succ.getCapsules().count < state.getCapsules().count):
+        features['caps'] = 1.0
+    else:
         cpos = findClosest(succ.getCapsules(), pacpos)
-        features['cposx'] = cpos[0]
-        features['cposy'] = cpos[1]
-        # closest food
+        features['caps'] = 1.0 / (cpos+1)
+    # closest food
+    if(succ.getFood().count < state.getFood().count):
+        features['food'] = 1.0
+    else:
         allfoods = succ.getFood().asList()
         fpos = findClosest(allfoods, pacpos)
-        features['fposx'] = fpos[0]
-        features['fposy'] = fpos[1]
+        features['food'] = 1.0 / (fpos+1)
     return features
 
 
