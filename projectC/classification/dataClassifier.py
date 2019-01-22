@@ -182,18 +182,11 @@ def enhancedPacmanFeatures(state, action):
         features['cposx'] = cpos[0]
         features['cposy'] = cpos[1]
         # closest food
-        '''
-        allfoods = []
-        fgrid = succ.getFood()
-        for x in range(len(fgrid)):
-            for y in range(len(fgrid[x])):
-                if(fgrid[x][y] == True):
-                    allfoods.append(succ.getFood()[x][y])
+        allfoods = succ.getFood().asList()
         fpos = findClosest(allfoods, pacpos)
         features['fposx'] = fpos[0]
         features['fposy'] = fpos[1]
-        '''
-        return features
+    return features
 
 
 def contestFeatureExtractorDigit(datum):
