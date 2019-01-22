@@ -16,6 +16,7 @@ import util
 import classificationMethod
 import math
 
+
 class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
     See the project description for the specifications of the Naive Bayes classifier.
@@ -23,12 +24,13 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     Note that the variable 'datum' in this code refers to a counter of features
     (not to a raw samples.Datum).
     """
+
     def __init__(self, legalLabels, thresholdValues=None):
         self.legalLabels = legalLabels
         self.thresholdValues = thresholdValues if thresholdValues else [1 for _ in legalLabels]
         self.type = "naivebayes"
-        self.k = 1 # this is the smoothing parameter, ** use it in your train method **
-        self.automaticTuning = False # Look at this flag to decide whether to choose k automatically ** use this in your train method **
+        self.k = 1  # this is the smoothing parameter, ** use it in your train method **
+        self.automaticTuning = False  # Look at this flag to decide whether to choose k automatically ** use this in your train method **
 
     def setSmoothing(self, k):
         """
@@ -44,7 +46,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
         # might be useful in your code later...
         # this is a list of all features in the training set.
-        self.features = list(set([ f for datum in trainingData for f in datum.keys() ]));
+        self.features = list(set([f for datum in trainingData for f in datum.keys()]));
 
         if (self.automaticTuning):
             kgrid = [0.001, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 20, 50]
@@ -67,26 +69,26 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         self.legalLabels.
         """
 
-        bestAccuracyCount = -1 # best accuracy so far on validation set
+        bestAccuracyCount = -1  # best accuracy so far on validation set
 
         # Common training - get all counts from training data
         # We only do it once - save computation in tuning smoothing parameter
-        commonPrior = util.Counter() # probability over labels
-        commonConditionalProb = util.Counter() # Conditional probability of feature feat being 1
-                                      # indexed by (feat, label)
-        commonCounts = util.Counter() # how many time I have seen feature feat with label y
-                                    # whatever inactive or active
+        commonPrior = util.Counter()  # probability over labels
+        commonConditionalProb = util.Counter()  # Conditional probability of feature feat being 1
+        # indexed by (feat, label)
+        commonCounts = util.Counter()  # how many time I have seen feature feat with label y
+        # whatever inactive or active
 
         for i in range(len(trainingData)):
             datum = trainingData[i]
             label = trainingLabels[i]
             commonPrior[label] += 1
             for feat, value in datum.items():
-                commonCounts[(feat,label)] += 1
-                if value > 0: # assume binary value
+                commonCounts[(feat, label)] += 1
+                if value > 0:  # assume binary value
                     commonConditionalProb[(feat, label)] += 1
 
-        for k in kgrid: # Smoothing parameter tuning loop!
+        for k in kgrid:  # Smoothing parameter tuning loop!
             prior = util.Counter()
             conditionalProb = util.Counter()
             counts = util.Counter()
@@ -102,8 +104,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             # smoothing:
             for label in self.legalLabels:
                 for feat in self.features:
-                    conditionalProb[ (feat, label)] +=  k
-                    counts[(feat, label)] +=  2*k # 2 because both value 0 and 1 are smoothed
+                    conditionalProb[(feat, label)] += k
+                    counts[(feat, label)] += 2 * k  # 2 because both value 0 and 1 are smoothed
 
             # normalizing:
             prior.normalize()
@@ -115,9 +117,10 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
             # evaluating performance on validation set
             predictions = self.classify(validationData)
-            accuracyCount =  [predictions[i] == validationLabels[i] for i in range(len(validationLabels))].count(True)
+            accuracyCount = [predictions[i] == validationLabels[i] for i in range(len(validationLabels))].count(True)
 
-            print "Performance on validation set for k=%f: (%.1f%%)" % (k, 100.0*accuracyCount/len(validationLabels))
+            print "Performance on validation set for k=%f: (%.1f%%)" % (
+            k, 100.0 * accuracyCount / len(validationLabels))
             if accuracyCount > bestAccuracyCount:
                 bestParams = (prior, conditionalProb, k)
                 bestAccuracyCount = accuracyCount
@@ -131,7 +134,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         You shouldn't modify this method.
         """
         guesses = []
-        self.posteriors = [] # Log posteriors are stored for later data analysis (autograder).
+        self.posteriors = []  # Log posteriors are stored for later data analysis (autograder).
         for datum in testData:
             posterior = self.calculateLogJointProbabilities(datum)
             # ln ( x y ) = ln ( x ) + ln ( y )
@@ -149,15 +152,15 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         To get the list of all possible features or labels, use self.features and
         self.legalLabels.
         """
-        logJoint = util.Counter() # output between 0 and -infinity
+        logJoint = util.Counter()  # output between 0 and -infinity
 
         for label in self.legalLabels:
             logJoint[label] = math.log(self.prior[label])
             for feat, value in datum.items():
                 if value > 0:
-                    logJoint[label] += math.log(self.conditionalProb[feat,label])
+                    logJoint[label] += math.log(self.conditionalProb[feat, label])
                 else:
-                    logJoint[label] += math.log(1-self.conditionalProb[feat,label])
+                    logJoint[label] += math.log(1 - self.conditionalProb[feat, label])
 
         return logJoint
 
@@ -171,7 +174,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         featuresOdds = []
 
         for feat in self.features:
-            featuresOdds.append((self.conditionalProb[feat, label1]/self.conditionalProb[feat, label2], feat))
+            featuresOdds.append((self.conditionalProb[feat, label1] / self.conditionalProb[feat, label2], feat))
         featuresOdds.sort()
         featuresOdds = [feat for val, feat in featuresOdds[-100:]]
 
