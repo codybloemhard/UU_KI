@@ -188,20 +188,61 @@ def stopAgent(state, succ):
     f['useless'] = succ.getScore()
     return f
 
-def foodAgent():
-    print("food")
+def foodAgent(state, succ):
     f = util.Counter()
+    pacpos = succ.getPacmanPosition()
+    if(succ.getFood().count < state.getFood().count):
+        f['food'] = 1.0
+    else:
+        allfoods = succ.getFood().asList()
+        fpos = findClosest(allfoods, pacpos)
+        f['food'] = norm(fpos)
     return f
 
-def suicideAgent():
-    print("suicide")
+def suicideAgent(state, succ):
     f = util.Counter()
+    pacpos = succ.getPacmanPosition()
+    f['closest'] = norm(findClosest(succ.getGhostPositions(), pacpos)) 
+    i = 0
+    for gp in succ.getGhostPositions():
+        i += cdist(gp, pacpos)
+    f['ghosts'] = norm(i)
     return f
 
-def contestAgent():
-    print("contest")
-    f = util.Counter()
-    return f
+def contestAgent(state, succ):
+    features = util.Counter()
+    # scores
+    # very positive effect
+    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
+    # little positive effect
+    features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
+    # pacman pos
+    pacpos = succ.getPacmanPosition()
+    #'''
+    # negative effect
+    # closest ghost pos
+    # features['ghost'] = norm(findClosest(succ.getGhostPositions(), pacpos))
+    #'''
+    #'''
+    # closest capsule
+    # no effect
+    #features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
+    # negative effect
+    #cpos = findClosest(succ.getCapsules(), pacpos)
+    #features['capp'] = 1.0 / (cpos+1)
+    #'''
+    # closest food
+    # little negative effect
+    #if(succ.getFood().count < state.getFood().count):
+    #features['food'] = 1.0
+    #else:
+    #very positive effect
+    i = 0
+    allfoods = succ.getFood().asList()
+    fpos = findClosest(allfoods, pacpos)
+    features['food'] = 1.0 / (fpos+1)
+    
+    return features
 
 def enhancedPacmanFeatures(state, action):
     """
