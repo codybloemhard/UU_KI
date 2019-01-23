@@ -240,7 +240,7 @@ def contestAgent(state, succ):
     i = 0
     allfoods = succ.getFood().asList()
     fpos = findClosest(allfoods, pacpos)
-    features['food'] = 1.0 / (fpos+1)
+    features['food'] = norm(fpos)
     
     return features
 
