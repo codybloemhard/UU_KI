@@ -171,13 +171,14 @@ def enhancedPacmanFeatures(state, action):
     features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
     # pacman pos
     pacpos = succ.getPacmanPosition()
-    '''
+    ''' 
     # closest ghost pos
     i = 0
     for gp in succ.getGhostPositions():
         i += cdist(gp, pacpos)
     features['ghosts'] = 1.0 / (i + 1)
     '''
+    features['ghost'] = 1.0 / (findClosest(succ.getGhostPositions(), pacpos) + 1)
     '''
     # closest capsule
     features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
