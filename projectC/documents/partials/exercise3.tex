@@ -1,21 +1,20 @@
 \section{Exercise 3}
 \subsection{ex3-a}
 Because there are a lot of features which vary between zero and one multiplying them together can yield very small
-numbers. These numbers in some cases cannot be represented using float and double types.\\
-A workaround for this is representing probabilities a log probabilities. This way their values are between -$\infty$ and 0.\\
+numbers. These numbers in some cases cannot be represented using float or double types.\\
+A workaround for this is representing probabilities as log probabilities. This way their values are between -$\infty$ and 0.\\
 Also because of this we no longer use product, but use summation instead. This works since sum of logarithms is
 equivalent to the log of the product of all the probabilities.
 
 \subsection{ex3-b}
-Conditional probability can also be written as P(A\^B) = P(A|B)P(B) . With this we can see that joint probability yields
+Conditional probability can also be written as P(A$\wedge$B) = P(A|B)P(B) . With this we can see that joint probability yields
 the same result as posterior probability multiplied with probability of P(B). \\
 Using log in joint probabilities achieves same result as described earlier because sum of logarithms of the
 probabilities is equivalent to the log of the product of all the probabilities.
-\\
-TODO: I could be wrong here at my first point. Doublecheck
 
 \subsection{ex3-c}
 \begin{table}[!htbp]
+\centering
 \begin{tabular}{l|llllll}
                     & 0.55   & 0.60   & 0.65   & 0.70   & 0.75   & 0.80   \\ \cline{2-7}
 accuracy test       & 85.0\% & 85.0\% & 85.0\% & 85.0\% & 85.0\% & 85.0\% \\ \cline{2-7}
@@ -23,12 +22,12 @@ accuracy validation & 81.0\% & 82.0\% & 82.0\% & 82.0\% & 82.0\% & 83.0\%
 \end{tabular}
 \end{table}
 Thresholding does seems to improve the accuracy, but not by much. The fact that accuracy improves suggests that there
- classifier did have some false positives.//
+ classifier did have some false positives.
 
-TODO: this cant be right. Reproduce dataClassifier.py -c naiveBayes -d faces -k 0.1 --threshold=0.45,0.55
+Reproduce dataClassifier.py -c naiveBayes -d faces -k 0.1 --threshold=0.45,0.55
 
 \subsection{ex3-d}
 The naive bayes classifier would be more biased towards classifying numbers as even numbers. Normally one would need to
 balance the dataset first, but this would require retraining. Since naive bayes works using frequency counting we can
-also correct the amount of even number occurences in the frequency table by reducing them by 50%. This would balance the
+also correct the amount of even number occurences in the frequency table by reducing them by 50\%. This would balance the
 dataset out.
