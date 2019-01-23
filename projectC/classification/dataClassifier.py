@@ -149,10 +149,12 @@ def enhancedFeatureExtractorPacman(state):
     return features, state.getLegalActions()
 
 # helpers
+def cdist(pos, ref):    
+     return ((ref[0]-pos[0])**2) + ((ref[1]-pos[1])**2)
 def findClosest(listofpos, refpos):
     dist = 100000
     for p in listofpos:
-        d = ((refpos[0]-p[0])**2) + ((refpos[1]-p[1])**2)
+        d = cdist(p, refpos)
         if(d < dist):
             dist = d
     return dist
@@ -169,24 +171,29 @@ def enhancedPacmanFeatures(state, action):
     features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
     # pacman pos
     pacpos = succ.getPacmanPosition()
+    '''
     # closest ghost pos
-    gpos = findClosest(succ.getGhostPositions(), pacpos)
-    features['ghost'] = 1.0 / (gpos+1)
+    i = 0
+    for gp in succ.getGhostPositions():
+        i += cdist(gp, pacpos)
+    features['ghosts'] = 1.0 / (i + 1)
+    '''
+    '''
     # closest capsule
-    if(succ.getCapsules().count < state.getCapsules().count):
-        features['caps'] = 1.0
-    else:
-        cpos = findClosest(succ.getCapsules(), pacpos)
-        features['caps'] = 1.0 / (cpos+1)
+    features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
+    cpos = findClosest(succ.getCapsules(), pacpos)
+    features['capp'] = 1.0 / (cpos+1)
+    '''
     # closest food
     if(succ.getFood().count < state.getFood().count):
         features['food'] = 1.0
     else:
+        i = 0
         allfoods = succ.getFood().asList()
         fpos = findClosest(allfoods, pacpos)
         features['food'] = 1.0 / (fpos+1)
+    
     return features
-
 
 def contestFeatureExtractorDigit(datum):
     """
