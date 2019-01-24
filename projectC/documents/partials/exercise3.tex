@@ -18,11 +18,12 @@ probabilities is equivalent to the log of the product of all the probabilities.
 \begin{tabular}{l|llllll}
                     & 0.55   & 0.60   & 0.65   & 0.70   & 0.75   & 0.80   \\ \cline{2-7}
 accuracy test       & 85.0\% & 85.0\% & 85.0\% & 85.0\% & 85.0\% & 85.0\% \\ \cline{2-7}
-accuracy validation & 81.0\% & 82.0\% & 82.0\% & 82.0\% & 82.0\% & 83.0\%
+accuracy validation & 81.0\% & 81.0\% & 81.0\% & 81.0\% & 81.0\% & 81.0\%
 \end{tabular}
 \end{table}
-Thresholding does seems to improve the accuracy, but not by much. The fact that accuracy improves suggests that there
- classifier did have some false positives.
+Thresholding does not seem to to improve performance. It rather worsens the performance by introducing more false
+negatives. The posterior probabilities are all around 50\% for which thresholding by the given amounts is too much. This
+is because features are of a low quality.//
 
 Reproduce dataClassifier.py -c naiveBayes -d faces -k 0.1 --threshold=0.45,0.55
 

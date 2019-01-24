@@ -16,7 +16,7 @@ Naive Bayes   & digits & 69\%       & 55\%    & 2 \\
 What is important to know is that for digits there are ten possible labels and for faces there
 are only two possible labels. This means that if you randomly guess you will have a higher chance
 of guessing correctly with the faces data set. This is what happens for the most frequent 
-classifier. The classifier found the most common label in the training set and apparently 
+classifier. The classifier found the most common label in the training set and 
 this label also appears with an above average frequency in the validation and testing set.\\
 Therefore the scores for digits is 14\% instead of 10\%, which would be the case if all labels
 were equally common in the test and validation set. And the same is true for faces, if both 
@@ -56,8 +56,7 @@ The autotune option finds the best value for k among these [0.001, 0.01, 0.05, 0
 1, 5, 10, 20, 50]. And then the classifier uses the best k value that was found for the
 validation and test set. 
 This option helps to improve the score for the naive bayes classifier and will in general 
-always give better scores. It is better for both data sets, but there could be a dataset 
-where a k of 2 would give the best scores and there the autotune would give worse scores.
+always give better scores. It is better for both data sets.
 What does stay the same is the presence of a difference between accuracy on validation and 
 testing set. Autotune will always choose a k that performs best on the validation set, 
 but this is not necessarily the best k for the test set.
@@ -75,6 +74,10 @@ of how the classifier will perform on real life data sets.
 
 
 \subsection{ex2-e}
-The test set is used to get an indication of the expected performance in the real world. This is because the data in the test set is not used for training. This means it is not overfit on the test set and you can see how well the classifier generalizes. This is important, for it will receive data it has not been trained on either in the real world. The validation set can be use to fine tune the classifier and rule out any
+The test set is used to get an indication of the expected performance in the real world. 
+This is because the data in the test set is not used for training. This means it is not 
+overfit on the test set and you can see how well the classifier generalizes. 
+This is important, for it will receive data it has not been trained on either in the real world. 
+The validation set can be use to fine tune the classifier and rule out any
 form of overfitting. This happens with the naive bayes classifier when the autotune option enable. 
 The validation test is used to get the best k value from the training data.
