@@ -215,25 +215,6 @@ def contestAgent(state, succ):
     features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
     # pacman pos
     pacpos = succ.getPacmanPosition()
-    #'''
-    # negative effect
-    # closest ghost pos
-    # features['ghost'] = norm(findClosest(succ.getGhostPositions(), pacpos))
-    #'''
-    #'''
-    # closest capsule
-    # no effect
-    #features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
-    # negative effect
-    #cpos = findClosest(succ.getCapsules(), pacpos)
-    #features['capp'] = 1.0 / (cpos+1)
-    #'''
-    # closest food
-    # little negative effect
-    #if(succ.getFood().count < state.getFood().count):
-    #features['food'] = 1.0
-    #else:
-    #very positive effect
     allfoods = succ.getFood().asList()
     fpos = findClosest(allfoods, pacpos)
     features['food'] = norm(fpos)
@@ -246,8 +227,9 @@ def enhancedPacmanFeatures(state, action):
     It should return a counter with { <feature name> : <feature value>, ... }
     """
     succ = state.generateSuccessor(0, action) # to succ or to be cool and good?
-    # for the all in one features
-    #return allInOne(state, succ)
+    # Uncomment if you want to test the agents with there own features
+    # Ex8 was made with these
+    '''
     if(agentChosen == None):
         return util.Counter()
     if(agentChosen == "StopAgent"):
@@ -261,32 +243,8 @@ def enhancedPacmanFeatures(state, action):
     else:
         return util.Counter()
     '''
-    # scores
-    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
-    features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
-    # pacman pos
-    pacpos = succ.getPacmanPosition()
-    # closest ghost pos
-    i = 0
-    for gp in succ.getGhostPositions():
-        i += cdist(gp, pacpos)
-    features['ghosts'] = 1.0 / (i + 1)
-    features['ghost'] = 1.0 / (findClosest(succ.getGhostPositions(), pacpos) + 1)
-    # closest capsule
-    features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
-    cpos = findClosest(succ.getCapsules(), pacpos)
-    features['capp'] = 1.0 / (cpos+1)
-    # closest food
-    if(succ.getFood().count < state.getFood().count):
-        features['food'] = 1.0
-    else:
-        i = 0
-        allfoods = succ.getFood().asList()
-        fpos = findClosest(allfoods, pacpos)
-        features['food'] = 1.0 / (fpos+1)
-    
-    return features
-    '''
+    # All in one, for autograder. The method above also has >90% for Contest and >80% for the other 3
+    return allInOne(state, succ)
 
 def contestFeatureExtractorDigit(datum):
     """
@@ -516,6 +474,8 @@ def readCommand(argv):
         sys.exit(2)
     
     args['agentToClone'] = options.agentToClone
+    global agentChosen 
+    agentChosen = options.agentToClone
 
     args['classifier'] = classifier
     args['featureFunction'] = featureFunction
