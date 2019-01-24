@@ -1,6 +1,9 @@
 \section{Exercise 8}
 \subsection{ex8-a}
-
+The perceptron classifier for pacman has a score of 88/100 in on the validation set. Is has a score of 84/100 on the test set. This means it might be a little overfitted, but it can generalize fairly well.
 \subsection{ex8-b}
-
+StopAgent: The stopagent just wants to stand still. This is very easy for the perceptron, it will increase the weights for stopping, and lower the weights of all the other things. The perceptron does not need any aditional features, for it can achieve a 100\% score without any features. \\
+FoodAgent: The foodagent just wants to eat food. The distance to the closest food of the succesor state looks like a good feature. A high value on this feature means that the agent is far away from food, and a low value means it is close to food. The agents can now try to optimise for a low value, meaning it will go towards the food. \\
+SuicideAgent: The suicideagent just wants to crash into a ghost to die. The distance to the closest ghost can be a helpful feature. It can again optimise for a low value and learn to move into the ghost. There is a better chance of getting killed if the agent is in a area with multiple ghosts. By adding the feature of the sum of the distances to the ghosts could help the agent to have a bias towards more crowded places. \\
+ContestAgent: The contestagent wants to play the game to the best of it's ability. The distance to the closest enemy is again important, but this time to avoid the ghosts. The distance to the closest food is also important again, because it really needs to eat the food to win. The distance to the closest power pallet could be a good feature here. We want to stimulate pacman to eat those, as it makes him invincible for a short time. That can help with winning the game. 
 \subsection{ex8-c}

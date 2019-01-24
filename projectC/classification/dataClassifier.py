@@ -31,6 +31,7 @@ DIGIT_DATUM_HEIGHT = 28
 FACE_DATUM_WIDTH = 60
 FACE_DATUM_HEIGHT = 70
 
+agentChosen = None
 
 def basicFeatureExtractorDigit(datum):
     """
@@ -149,52 +150,147 @@ def enhancedFeatureExtractorPacman(state):
     return features, state.getLegalActions()
 
 # helpers
+def cdist(pos, ref):    
+     return ((ref[0]-pos[0])**2) + ((ref[1]-pos[1])**2)
+
 def findClosest(listofpos, refpos):
     dist = 100000
-    pos = (0,0)
     for p in listofpos:
-        d = (refpos[0]-p[0])**2 + (refpos[1]-p[1])**2
+        d = cdist(p, refpos)
         if(d < dist):
             dist = d
-            pos = p
-    return pos
+    return dist
+
+def norm(x):
+    return 1.0 / (x + 1)
+
+def allInOne(state, succ):
+    features = util.Counter()
+    # scores
+    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
+    features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
+    # pacman pos
+    pacpos = succ.getPacmanPosition()
+    features['ghost'] = norm(findClosest(succ.getGhostPositions(), pacpos))
+    # closest food
+    if(succ.getFood().count < state.getFood().count):
+        features['food'] = 1.0
+    else:
+        i = 0
+        allfoods = succ.getFood().asList()
+        fpos = findClosest(allfoods, pacpos)
+        features['food'] = norm(fpos)
+    
+    return features
+
+def stopAgent(state, succ):
+    f = util.Counter()
+    f['useless'] = succ.getScore()
+    return f
+
+def foodAgent(state, succ):
+    f = util.Counter()
+    pacpos = succ.getPacmanPosition()
+    if(succ.getFood().count < state.getFood().count):
+        f['food'] = 1.0
+    else:
+        allfoods = succ.getFood().asList()
+        fpos = findClosest(allfoods, pacpos)
+        f['food'] = norm(fpos)
+    return f
+
+def suicideAgent(state, succ):
+    f = util.Counter()
+    pacpos = succ.getPacmanPosition()
+    f['closest'] = norm(findClosest(succ.getGhostPositions(), pacpos)) 
+    i = 0
+    for gp in succ.getGhostPositions():
+        i += cdist(gp, pacpos)
+    f['ghosts'] = norm(i)
+    return f
+
+def contestAgent(state, succ):
+    features = util.Counter()
+    # scores
+    # very positive effect
+    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
+    # little positive effect
+    features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
+    # pacman pos
+    pacpos = succ.getPacmanPosition()
+    #'''
+    # negative effect
+    # closest ghost pos
+    # features['ghost'] = norm(findClosest(succ.getGhostPositions(), pacpos))
+    #'''
+    #'''
+    # closest capsule
+    # no effect
+    #features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
+    # negative effect
+    #cpos = findClosest(succ.getCapsules(), pacpos)
+    #features['capp'] = 1.0 / (cpos+1)
+    #'''
+    # closest food
+    # little negative effect
+    #if(succ.getFood().count < state.getFood().count):
+    #features['food'] = 1.0
+    #else:
+    #very positive effect
+    i = 0
+    allfoods = succ.getFood().asList()
+    fpos = findClosest(allfoods, pacpos)
+    features['food'] = norm(fpos)
+    
+    return features
 
 def enhancedPacmanFeatures(state, action):
     """
     For each state, this function is called with each legal action.
     It should return a counter with { <feature name> : <feature value>, ... }
     """
-    features = util.Counter()
-    for action in state.getLegalActions():
-        succ = state.generateSuccessor(0, action) # to succ or to be cool and good?
-        # food
-        features['foodn'] = succ.getFood().count()
-        # pacman pos
-        pacpos = succ.getPacmanPosition()
-        features['pacposx'] = pacpos[0]
-        features['pacposy'] = pacpos[1]
-        # closest ghost pos
-        gpos = findClosest(succ.getGhostPositions(), pacpos)
-        features['gposx'] = gpos[0]
-        features['gposy'] = gpos[1]
-        # closest capsule
-        cpos = findClosest(succ.getCapsules(), pacpos)
-        features['cposx'] = cpos[0]
-        features['cposy'] = cpos[1]
-        # closest food
-        '''
-        allfoods = []
-        fgrid = succ.getFood()
-        for x in range(len(fgrid)):
-            for y in range(len(fgrid[x])):
-                if(fgrid[x][y] == True):
-                    allfoods.append(succ.getFood()[x][y])
+    succ = state.generateSuccessor(0, action) # to succ or to be cool and good?
+    # for the all in one features
+    #return allInOne(state, succ)
+    if(agentChosen == None):
+        return util.Counter()
+    if(agentChosen == "StopAgent"):
+        return stopAgent(state, succ)
+    elif(agentChosen[0] == "F"):
+        return foodAgent(state, succ)
+    elif(agentChosen[0] == "S"):
+        return suicideAgent(state, succ)
+    elif(agentChosen[0] == "C"):
+        return contestAgent(state, succ)
+    else:
+        return util.Counter()
+    '''
+    # scores
+    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
+    features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
+    # pacman pos
+    pacpos = succ.getPacmanPosition()
+    # closest ghost pos
+    i = 0
+    for gp in succ.getGhostPositions():
+        i += cdist(gp, pacpos)
+    features['ghosts'] = 1.0 / (i + 1)
+    features['ghost'] = 1.0 / (findClosest(succ.getGhostPositions(), pacpos) + 1)
+    # closest capsule
+    features['caps'] = 1.0 if (succ.getCapsules().count < state.getCapsules().count) else 0.0
+    cpos = findClosest(succ.getCapsules(), pacpos)
+    features['capp'] = 1.0 / (cpos+1)
+    # closest food
+    if(succ.getFood().count < state.getFood().count):
+        features['food'] = 1.0
+    else:
+        i = 0
+        allfoods = succ.getFood().asList()
         fpos = findClosest(allfoods, pacpos)
-        features['fposx'] = fpos[0]
-        features['fposy'] = fpos[1]
-        '''
-        return features
-
+        features['food'] = 1.0 / (fpos+1)
+    
+    return features
+    '''
 
 def contestFeatureExtractorDigit(datum):
     """
@@ -422,7 +518,7 @@ def readCommand(argv):
         print USAGE_STRING
 
         sys.exit(2)
-
+    
     args['agentToClone'] = options.agentToClone
 
     args['classifier'] = classifier
@@ -459,7 +555,9 @@ def runClassifier(args, options):
     numTest = options.test
 
     if (options.data == "pacman"):
+        global agentChosen
         agentToClone = args.get('agentToClone', None)
+        agentChosen = options.agentToClone
         trainingData, validationData, testData = MAP_AGENT_TO_PATH_OF_SAVED_GAMES.get(agentToClone, (None, None, None))
         trainingData = trainingData or args.get('trainingData', False) or \
                        MAP_AGENT_TO_PATH_OF_SAVED_GAMES['ContestAgent'][0]
