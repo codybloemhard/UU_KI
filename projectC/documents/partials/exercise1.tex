@@ -1,22 +1,50 @@
 \section{Exercise 1}
 \label{sec:ex1}
 \subsection{ex1-a}
-number of input features + what they represent \\
 Images are converted into 2 dimensional arrays with size 28x28 for digits and 60x74 for faces.
 In these arrays every element represents one pixel of the image. 
 
-the possible values and what these represent \\
-For every element in the array there are two options. For digits a 0 indicates a white pixel
-and a 1 indicates a gray/black pixel. For faces a 0 indicates no edge and a 1 indicates an edge.
+The program reads the files and will come across 3 symbols: blank space, + and \#
+For digits a blank space indicates a white pixel, a + indicates a gray pixel and a \# 
+indicates a black pixel. For faces a blank space indicates no edge and a \# indicates an edge, 
+and the + is not used with faces.
+These symbols are transformed and then put into the array. A blank space becomes a 0, a + 
+becomes a 1 and a \# becomes a 2.
+Then in dataClassifier all 1s and 2s are changed to 1, and all 0s stay the same.
 
-
-the output labels and what they represent \\
 For digits there are 10 possible labels. These are the numbers 0 to 9, and they represent 
 the numbers 0 to 9.
 For faces there are 2 possible labels: 1 and 0, because it's either a face or it's not. 
-Here a 1 represents a face, and a 0 represents it's not a face
+Here a 1 represents a face, and a 0 represents it's not a face.
 
-the frequency or probability distributions over the output labels \\
+The frequencies of all the labels divides by set and datatype.
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{|l||l|l|l|}
+\hline
+Frequency digits & Test labels   & Train labels & Validation labels \\ \hline
+1 & 10.8\% & 11.26\% & 12.6\% \\ \hline
+2 & 10.3\% & 9.76\%  & 11.6\% \\ \hline
+3 & 10.0\% & 9.86\%  & 10.7\% \\ \hline
+4 & 10.7\% & 10.70\% & 11.0\% \\ \hline
+5 & 9.2\%  & 8.68\%  & 8.7\%  \\ \hline
+6 & 9.1\%  & 10.02\% & 8.7\%  \\ \hline
+7 & 10.6\% & 11.00\% & 9.9\%  \\ \hline
+8 & 10.3\% & 9.24\%  & 8.9\%  \\ \hline
+9 & 10.0\% & 9.90\%  & 9.4\%  \\ \hline
+0 & 9.0\%  & 9.58\%  & 8.5\%  \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{|l||l|l|l|}
+\hline
+Frequency faces & Test labels   & Train labels & Validation labels \\ \hline
+0 & 51.33\% & 51.88\% & 51.83\% \\ \hline
+1 & 48.67\% & 48.12\% & 48.17\% \\ \hline
+\end{tabular}
+\end{table}
 
 \subsection{ex1-b}
 Most frequent counts for every possible label how often it appears and then uses the most
@@ -28,4 +56,4 @@ but unlike most frequent, it does so for every feature and normalizes the result
 Most frequent does use supervised learning because it directly looks at the labels given 
 to the training data, and uses the most common label to classify all future inputs.\\
 Naive bayes does also use supervised learning because it looks at the labels by counting 
-how often a level A is given to a feature B.
+how often a label A is given to a feature B.
