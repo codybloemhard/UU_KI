@@ -312,7 +312,7 @@ def readCommand(argv):
     parser.add_option('-d', '--data', help=default('Dataset to use'), choices=['digits', 'faces', 'pacman'],
                       default='digits')
     parser.add_option('-t', '--training', help=default('The size of the training set'), default=100, type="int")
-    parser.add_option('--threshold', help=default('Decision threshold'), default=None, type="string")
+    parser.add_option('--threshold', help=default('Decision threshold'), default=None, type="float")
     parser.add_option('-f', '--features', help=default('Whether to use enhanced features'), default=False,
                       action="store_true")
     parser.add_option('-o', '--odds', help=default('Whether to compute odds ratios'), default=False,
@@ -391,20 +391,10 @@ def readCommand(argv):
             print USAGE_STRING
             sys.exit(2)
 
-    # Haalt threshold waarden uit de string. En vult ze aan als er niet genoeg zijn
-    thresholdValues = None
-    if isinstance(options.threshold, basestring):
-        thresholdValues = [float(token) for token in options.threshold.split(',')]
-        if len(thresholdValues) < len(legalLabels):
-            padCount = len(legalLabels) - len(thresholdValues)
-            padValue = (1 - sum(thresholdValues)) / padCount
-            if padValue < 0: padValue = 1
-            thresholdValues += [padValue] * padCount
-
     if (options.classifier == "mostFrequent"):
         classifier = mostFrequent.MostFrequentClassifier(legalLabels)
     elif (options.classifier == "naiveBayes" or options.classifier == "nb"):
-        classifier = naiveBayes.NaiveBayesClassifier(legalLabels, thresholdValues)
+        classifier = naiveBayes.NaiveBayesClassifier(legalLabels, options.threshold)
         classifier.setSmoothing(options.smoothing)
         if (options.autotune):
             print "using automatic tuning for naivebayes"

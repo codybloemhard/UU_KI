@@ -25,9 +25,9 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     (not to a raw samples.Datum).
     """
 
-    def __init__(self, legalLabels, thresholdValues=None):
+    def __init__(self, legalLabels, threshold=None):
         self.legalLabels = legalLabels
-        self.thresholdValues = thresholdValues if thresholdValues else [1 for _ in legalLabels]
+        self.threshold = threshold
         self.type = "naivebayes"
         self.k = 1  # this is the smoothing parameter, ** use it in your train method **
         self.automaticTuning = False  # Look at this flag to decide whether to choose k automatically ** use this in your train method **
@@ -137,10 +137,14 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         self.posteriors = []  # Log posteriors are stored for later data analysis (autograder).
         for datum in testData:
             posterior = self.calculateLogJointProbabilities(datum)
-            # ln ( x y ) = ln ( x ) + ln ( y )
-            for i in posterior.keys(): posterior[i] = posterior[i] + math.log(self.thresholdValues[i])
-            guesses.append(posterior.argMax())
             self.posteriors.append(posterior)
+
+            if len(posterior) == 2:
+                pred = math.exp(posterior[True] - posterior[False]) >= (self.threshold / (1 - self.threshold))
+                guesses.append(pred)
+            else:
+                guesses.append(posterior.argMax())
+
         return guesses
 
     def calculateLogJointProbabilities(self, datum):
