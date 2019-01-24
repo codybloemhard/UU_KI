@@ -191,12 +191,9 @@ def stopAgent(state, succ):
 def foodAgent(state, succ):
     f = util.Counter()
     pacpos = succ.getPacmanPosition()
-    if(succ.getFood().count < state.getFood().count):
-        f['food'] = 1.0
-    else:
-        allfoods = succ.getFood().asList()
-        fpos = findClosest(allfoods, pacpos)
-        f['food'] = norm(fpos)
+    allfoods = succ.getFood().asList()
+    fpos = findClosest(allfoods, pacpos)
+    f['food'] = norm(fpos)
     return f
 
 def suicideAgent(state, succ):
@@ -213,7 +210,7 @@ def contestAgent(state, succ):
     features = util.Counter()
     # scores
     # very positive effect
-    features['score'] = 1.0 / abs(succ.getScore() - state.getScore()) + 1
+    features['score'] = norm(abs(succ.getScore() - state.getScore()))
     # little positive effect
     features['end'] = 1.0 if succ.isWin() else (0.0 if succ.isLose() else 0.5)
     # pacman pos
@@ -237,7 +234,6 @@ def contestAgent(state, succ):
     #features['food'] = 1.0
     #else:
     #very positive effect
-    i = 0
     allfoods = succ.getFood().asList()
     fpos = findClosest(allfoods, pacpos)
     features['food'] = norm(fpos)
